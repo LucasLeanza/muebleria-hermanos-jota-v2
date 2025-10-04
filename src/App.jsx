@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { CartProvider } from './componentes/CartContext';  // ← Cambiado
-import Header from './componentes/Header';  // ← Cambiado
-import Footer from './componentes/Footer';  // ← Cambiado
+import { CartProvider } from './componentes/CartContext';  
+import Header from './componentes/Header';  
+import Footer from './componentes/Footer';  
 import Inicio from './secciones/Inicio';
 import Catalogo from './secciones/Catalogo';
 import Contacto from './secciones/Contacto';
