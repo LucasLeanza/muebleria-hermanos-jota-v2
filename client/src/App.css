@@ -1,8 +1,28 @@
+:root {
+  --color-bg: #F5E6D3;
+  --color-surface: #FFFFFF; 
+  --color-text: #3E2723;  
+  --color-brand: #A0522D;  
+  --color-accent: #87A96B;  
+  --color-border: #E6D8C2;
+  --color-ok: #2E7D32;  
+  --font-brand: "Inter", system-ui, sans-serif;
+  --font-title: "Playfair Display", Georgia, serif;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-brand);
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
 
 .logo {
@@ -12,10 +32,10 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em var(--color-accent));
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em var(--color-brand));
 }
 
 @keyframes logo-spin {
@@ -26,17 +46,91 @@
     transform: rotate(360deg);
   }
 }
-
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
-.card {
-  padding: 2em;
+/*Formularios (Contacto / Checkout) */ 
+.ui-section {
+  max-width: 480px;
+  margin: 24px auto;
+  padding: 24px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(62, 39, 35, 0.15);
+  text-align: left;
 }
 
-.read-the-docs {
-  color: #888;
+.ui-title {
+  margin: 0 0 16px 0;
+  font-family: var(--font-title);
+  color: var(--color-brand);
+  text-align: center;
+}
+
+.ui-label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+/* Inputs, textarea y select */
+.ui-input,
+.ui-textarea,
+.ui-select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  color: var(--color-text);
+  font-family: var(--font-brand);
+}
+.ui-input:focus,
+.ui-textarea:focus,
+.ui-select:focus {
+  outline: 2px solid var(--color-accent);
+}
+
+.ui-button {
+  margin-top: 16px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-brand);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.05s ease;
+}
+.ui-button:hover {
+  background: #8e4528; 
+}
+.ui-button:active {
+  transform: translateY(1px);
+}
+
+.ui-ok {
+  margin-top: 12px;
+  color: var(--color-accent);
+  font-weight: bold;
+  text-align: center;
+}
+
+h1 {
+  font-family: var(--font-title);
+  color: var(--color-brand);
+  letter-spacing: 0.03em;
+  margin-bottom: 20px;
+}
+
+.ui-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
