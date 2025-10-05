@@ -1,6 +1,4 @@
-function errorHandler (err, req, res, next) {
+export default function errorHandler(err, req, res, next) {
   console.error(err)
-  res.status(500).json({ error: { message: 'Error intento del servidor' } })
+  res.status(500).json({ error: { message: 'Error interno del servidor' } })
 }
-
-module.exports = errorHandler
