@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "multer": "^2.0.2",
     "zod": "^4.1.11"
   },
   "devDependencies": {

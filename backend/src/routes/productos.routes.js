@@ -1,7 +1,7 @@
-const express = require('express')
-const ctrl = require('../controllers/productos.controller')
+import { Router } from 'express'
+import * as ctrl from '../controllers/productos.controller.js'
 
-const router = express.Router()
+const router = Router()
 
 router.get('/', ctrl.list)
 router.get('/:id', ctrl.detail)
@@ -9,4 +9,4 @@ router.post('/', ctrl.create)
 router.patch('/:id', ctrl.update)
 router.delete('/:id', ctrl.destroy)
 
-module.exports = router
+export default router

@@ -1,17 +1,19 @@
-const crypto = require('node:crypto')
-const store = require('../dataStore')
-const { validateProductoCreate, validateProductoUpdate } = require('../schemas/producto.schema')
+import crypto from 'node:crypto'
+import * as store from '../dataStore.js'
+import { validateProductoCreate, validateProductoUpdate } from '../schemas/producto.schema.js'
 
 // GET /api/productos
-async function list (req, res, next) {
+export async function list(req, res, next) {
   try {
     const data = store.getAll()
     return res.json(data)
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err)
+  }
 }
 
 // GET /api/productos/:id
-async function detail(req, res, next) {
+export async function detail(req, res, next) {
   try {
     const { id } = req.params
     const item = store.getById(id)
@@ -19,11 +21,13 @@ async function detail(req, res, next) {
       return res.status(404).json({ error: { message: 'Producto no encontrado' } })
     }
     return res.json(item)
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err)
+  }
 }
 
 // POST /api/productos
-async function create (req, res, next) {
+export async function create(req, res, next) {
   try {
     const parsed = validateProductoCreate(req.body)
     if (!parsed.success) {
@@ -37,19 +41,21 @@ async function create (req, res, next) {
 
     const saved = await store.create(nuevo)
     return res.status(201).json(saved)
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err)
+  }
 }
 
 // PATCH /api/productos/:id
-async function update (req, res, next) {
+export async function update(req, res, next) {
   try {
     const parsed = validateProductoUpdate(req.body)
     if (!parsed.success) {
       return res.status(400).json({ error: { message: 'Datos inválidos' } })
     }
 
-    if(Object.keys(parsed.data).length === 0) {
-      return res.status(400).json({error: { message: 'No se enviaron cambios' }})
+    if (Object.keys(parsed.data).length === 0) {
+      return res.status(400).json({ error: { message: 'No se enviaron cambios' } })
     }
 
     const { id } = req.params
@@ -59,11 +65,13 @@ async function update (req, res, next) {
     }
 
     return res.json(updated)
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err)
+  }
 }
 
 // DELETE /api/productos/:id
-async function destroy (req, res, next) {
+export async function destroy(req, res, next) {
   try {
     const { id } = req.params
     const ok = await store.remove(id)
@@ -71,7 +79,7 @@ async function destroy (req, res, next) {
       return res.status(404).json({ error: { message: 'Producto no encontrado' } })
     }
     return res.status(204).end()
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err)
+  }
 }
-
-module.exports = { list, detail, create, update, destroy }

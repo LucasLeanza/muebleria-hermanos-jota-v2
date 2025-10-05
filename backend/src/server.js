@@ -1,5 +1,5 @@
-const app = require('./app')
-const { load } = require('./dataStore')
+import app from './app.js'
+import { load } from './dataStore.js'  // usa la export nombrada
 
 const PORT = process.env.PORT || 3000
 
