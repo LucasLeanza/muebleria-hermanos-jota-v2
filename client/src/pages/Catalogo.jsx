@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import ProductCard from "../components/ProductCard"; // <-- ruta correcta
+import { useEffect, useState } from "react";
+import ProductCard from "../components/ProductCard.jsx";
 
 export default function Catalogo() {
   const [productos, setProductos] = useState([]);
@@ -7,31 +7,35 @@ export default function Catalogo() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/productos")
-      .then(res => res.json())
-      .then(data => {
+    fetch("http://localhost:3000/api/productos")
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al obtener productos");
+        return res.json();
+      })
+      .then((data) => {
         setProductos(data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
-        setError("Error al cargar productos");
+        setError("No se pudieron cargar los productos.");
         setLoading(false);
       });
   }, []);
 
-  if (loading) return <p>Cargando...</p>;
+  if (loading) return <p>Cargando productos...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div>
-      <h1>Catálogo de productos</h1>
+      <h2>Catálogo de Productos</h2>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
-        {productos.map(producto => (
+        {productos.map((producto) => (
           <ProductCard key={producto.id} producto={producto} />
         ))}
       </div>
     </div>
   );
 }
+
 

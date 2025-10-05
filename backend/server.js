@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
-import { productos } from "./data/productos.js";
+import productos from "./data/productos.json" with { type: "json" };
 
 const app = express();
 const PORT = 3000;
@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 // 🔹 Rutas
-app.get("/productos", (req, res) => {
+app.get("/api/productos", (req, res) => {
   res.json(productos);
 });
 
