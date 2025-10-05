@@ -1,9 +1,9 @@
-const express = require('express')
-const cors = require('cors')
+import express from 'express'
+import cors from 'cors'
 
-const productosRouter = require('./routes/productos.routes')
-const notFound = require('./middlewares/not-found')
-const errorHandler = require('./middlewares/error-handler')
+import productosRouter from './routes/productos.routes.js'
+import notFound from './middlewares/not-found.js'
+import errorHandler from './middlewares/error-handler.js'
 
 const app = express()
 
@@ -17,17 +17,19 @@ const ACCEPTED_ORIGINS = [
   'http://127.0.0.1:3000'
 ]
 
-app.use(cors({
-  origin: (origin, cb) => {
-    if (!origin) return cb(null, true)
-    if(ACCEPTED_ORIGINS.includes(origin)) return cb(null, true)
-    return cb(new Error('Not allowed by CORS'))
-  }
-}))
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true)
+      if (ACCEPTED_ORIGINS.includes(origin)) return cb(null, true)
+      return cb(new Error('Not allowed by CORS'))
+    }
+  })
+)
 
 app.use('/api/productos', productosRouter)
 
 app.use(notFound)
 app.use(errorHandler)
 
-module.exports = app
+export default app
