@@ -1,5 +1,7 @@
 import express from 'express'
 import cors from 'cors'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 import productosRouter from './routes/productos.routes.js'
 import notFound from './middlewares/not-found.js'
@@ -17,17 +19,24 @@ const ACCEPTED_ORIGINS = [
   'http://127.0.0.1:3000'
 ]
 
+
+
+
 app.use(
   cors({
     origin: (origin, cb) => {
       if (!origin) return cb(null, true)
-      if (ACCEPTED_ORIGINS.includes(origin)) return cb(null, true)
-      return cb(new Error('Not allowed by CORS'))
-    }
-  })
-)
-
+        if (ACCEPTED_ORIGINS.includes(origin)) return cb(null, true)
+          return cb(new Error('Not allowed by CORS'))
+      }
+    })
+  )
+  
 app.use('/api/productos', productosRouter)
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+app.use('/images', express.static(path.join(__dirname, '../images')))
 
 app.use(notFound)
 app.use(errorHandler)
