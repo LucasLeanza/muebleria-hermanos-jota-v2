@@ -52,7 +52,7 @@ body {
   }
 }
 
-/*Formularios (Contacto / Checkout) */ 
+/*Contacto*/
 .ui-section {
   max-width: 480px;
   margin: 24px auto;
@@ -78,7 +78,6 @@ body {
   font-weight: 600;
 }
 
-/* Inputs, textarea y select */
 .ui-input,
 .ui-textarea,
 .ui-select {
