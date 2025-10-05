@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useCart } from '../componentes/CartContext';
 
 const productosCompletos = [
@@ -9,8 +8,7 @@ const productosCompletos = [
     imagen: "/img/Aparador Uspallata.png",
     descripcion: "Aparador de roble macizo con detalles en herrajes negros. Ideal para salas de estar espaciosas.",
     precio: 150000,
-    categoria: "salas",
-    stock: 5
+    categoria: "salas"
   },
   {
     id: 2,
@@ -18,8 +16,7 @@ const productosCompletos = [
     imagen: "/img/Biblioteca Recoleta.png",
     descripcion: "Sistema modular con estructura Sage Green y repisas de roble claro. Diseño adaptable y funcional.",
     precio: 120000,
-    categoria: "bibliotecas",
-    stock: 3
+    categoria: "bibliotecas"
   },
   {
     id: 3,
@@ -27,8 +24,7 @@ const productosCompletos = [
     imagen: "/img/Mesa de Centro Araucaria.png",
     descripcion: "Mesa de centro con sobre de mármol Patagonia y base de nogal. Minimalista y elegante para salas contemporáneas.",
     precio: 85000,
-    categoria: "mesas",
-    stock: 8
+    categoria: "mesas"
   },
   {
     id: 4,
@@ -36,41 +32,42 @@ const productosCompletos = [
     imagen: "/img/Mesa de Noche Aconcagua.png",
     descripcion: "Mesa de noche en roble FSC® con cajón oculto. Funcional y discreta para cualquier estilo de dormitorio.",
     precio: 45000,
-    categoria: "dormitorios",
-    stock: 12
+    categoria: "dormitorios"
   },
-  {
-    id: 5,
+   {
+  id: 5,
     nombre: "Sillón Patagonia",
     imagen: "/img/Sofá Patagonia.png",
     descripcion: "Sillón ergonómico con estructura de madera maciza y tapizado en lino natural. Confort y diseño en armonía.",
-    precio: 180000
+    precio: 180000,
+    categoria: "sillones"
   },
   {
     id: 6,
     nombre: "Mesa de Comedor Pampa",
     imagen: "/img/Mesa Comedor Pampa.png",
     descripcion: "Mesa de comedor extensible en roble natural. Perfecta para reuniones familiares y cenas especiales.",
-    precio: 220000
+    precio: 220000,
+    categoria: "comedores"
   }
 ];
 
-const Catalogo = () => {
-  const [productos, setProductos] = useState(productosCompletos);
+const Catalogo = ({ cambiarPagina }) => {
+  const [productos] = useState(productosCompletos);
   const [busqueda, setBusqueda] = useState('');
   const { addToCart } = useCart();
 
-  useEffect(() => {
-    if (busqueda.trim() === '') {
-      setProductos(productosCompletos);
-    } else {
-      const filtered = productosCompletos.filter(producto =>
-        producto.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-        producto.descripcion.toLowerCase().includes(busqueda.toLowerCase())
-      );
-      setProductos(filtered);
-    }
-  }, [busqueda]);
+  const productosFiltrados = busqueda 
+    ? productos.filter(p => 
+        p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+        p.descripcion.toLowerCase().includes(busqueda.toLowerCase())
+      )
+    : productos;
+
+  const agregarAlCarrito = (producto) => {
+    addToCart(producto);
+    alert(`¡${producto.nombre} agregado al carrito!`);
+  };
 
   return (
     <main>
@@ -94,39 +91,28 @@ const Catalogo = () => {
       </section>
 
       <div className="catalogo">
-        {productos.map(producto => (
+        {productosFiltrados.map(producto => (
           <div key={producto.id} className="productos-card">
             <div className="img-container">
-              <img 
-                src={producto.imagen} 
-                alt={producto.nombre}
-                className="producto-img"
-                onError={(e) => {
-                  e.target.src = '/img/placeholder.jpg';
-                }}
-              />
+              <img src={producto.imagen} alt={producto.nombre} className="producto-img" />
             </div>
             
             <div className="producto-info">
               <h3 className="producto-nombre">{producto.nombre}</h3>
               <p className="producto-precio">${producto.precio.toLocaleString()}</p>
               <p>{producto.descripcion}</p>
-              <small>Stock: {producto.stock} unidades</small>
             </div>
 
             <div className="producto-botones">
-              <Link 
-                to={`/detalle-producto/${producto.id}`}
+              <button 
+                onClick={() => cambiarPagina('detalle', producto.id)}
                 className="ver-detalles"
               >
                 Ver Detalles
-              </Link>
+              </button>
               <button 
+                onClick={() => agregarAlCarrito(producto)}
                 className="agregar-carrito"
-                onClick={() => {
-                  addToCart(producto);
-                  alert(`${producto.nombre} agregado al carrito`);
-                }}
               >
                 Agregar al Carrito
               </button>
@@ -135,7 +121,7 @@ const Catalogo = () => {
         ))}
       </div>
 
-      {productos.length === 0 && (
+      {productosFiltrados.length === 0 && (
         <div style={{ textAlign: 'center', padding: '3rem' }}>
           <p>No se encontraron productos que coincidan con tu búsqueda.</p>
         </div>

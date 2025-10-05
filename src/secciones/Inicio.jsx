@@ -1,14 +1,13 @@
-import React from 'react';
-import Principal from '../componentes/Principal';  // ← Cambiado
+import Principal from '../componentes/Principal';
 import Esencia from '../componentes/Esencia';
 import Coleccion from '../componentes/Coleccion';
 
-const Inicio = () => {
+const Inicio = ({ cambiarPagina }) => {
   return (
     <main>
-      <Principal />  {/* ← Cambiado */}
+      <Principal cambiarPagina={cambiarPagina} />
       <Esencia />
-      <Coleccion />
+      <Coleccion cambiarPagina={cambiarPagina} />
     </main>
   );
 };

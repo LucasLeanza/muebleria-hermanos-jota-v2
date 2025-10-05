@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Contacto = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +18,6 @@ const Contacto = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Datos del formulario:', formData);
     setEnviado(true);
     setFormData({ nombre: '', email: '', asunto: '', mensaje: '' });
     

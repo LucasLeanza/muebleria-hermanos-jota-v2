@@ -1,54 +1,65 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { useCart } from './CartContext';
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const Header = ({ cambiarPagina, paginaActual }) => {
+  const [menuAbierto, setMenuAbierto] = useState(false);
   const { cartCount } = useCart();
-  const location = useLocation();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  const isActiveLink = (path) => {
-    return location.pathname === path ? 'active' : '';
+  const irA = (pagina) => {
+    cambiarPagina(pagina);
+    setMenuAbierto(false);
   };
 
   return (
     <header className="header">
       <nav className="nav">
-        <Link to="/" onClick={closeMenu}>
+        <button 
+          onClick={() => irA('inicio')}
+          className="boton-logo"
+        >
           <img src="/img/logo.svg" alt="Logo de Hermanos Jota" className="logo" />
-        </Link>
+        </button>
         
-        <Link to="/carrito" className="cart-link" aria-label="Ver carrito" onClick={closeMenu}>
+        <button 
+          onClick={() => irA('carrito')}
+          className="cart-link"
+        >
           <i className="fa-solid fa-shopping-cart"></i>
           <span className="cart-text">Carrito</span>
           (<span id="cart-count">{cartCount}</span>)
-        </Link>
+        </button>
 
         <button 
           className="nav-toggle" 
-          aria-label="Abrir menú"
-          onClick={toggleMenu}
+          onClick={() => setMenuAbierto(!menuAbierto)}
         >
           ☰
         </button>
 
-        <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+        <ul className={`nav-menu ${menuAbierto ? 'active' : ''}`}>
           <li>
-            <Link to="/" className={isActiveLink('/')} onClick={closeMenu}>Inicio</Link>
+            <button 
+              onClick={() => irA('inicio')}
+              className={paginaActual === 'inicio' ? 'active' : ''}
+            >
+              Inicio
+            </button>
           </li>
           <li>
-            <Link to="/catalogo" className={isActiveLink('/catalogo')} onClick={closeMenu}>Colección</Link>
+            <button 
+              onClick={() => irA('catalogo')}
+              className={paginaActual === 'catalogo' ? 'active' : ''}
+            >
+              Colección
+            </button>
           </li>
           <li>
-            <Link to="/contacto" className={isActiveLink('/contacto')} onClick={closeMenu}>Contacto</Link>
+            <button 
+              onClick={() => irA('contacto')}
+              className={paginaActual === 'contacto' ? 'active' : ''}
+            >
+              Contacto
+            </button>
           </li>
         </ul>
       </nav>

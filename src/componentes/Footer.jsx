@@ -1,7 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-const Footer = () => {
+const Footer = ({ cambiarPagina }) => {
   return (
     <footer className="footer">
       <section className="footer-brand">
@@ -16,9 +13,30 @@ const Footer = () => {
         <h3>Navegación</h3>
         <nav>
           <ul>
-            <li><Link to="/">Inicio</Link></li>
-            <li><Link to="/catalogo">Colección</Link></li>
-            <li><Link to="/contacto">Contacto</Link></li>
+            <li>
+              <button 
+                onClick={() => cambiarPagina('inicio')}
+                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+              >
+                Inicio
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => cambiarPagina('catalogo')}
+                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+              >
+                Colección
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => cambiarPagina('contacto')}
+                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+              >
+                Contacto
+              </button>
+            </li>
           </ul>
         </nav>
       </section>

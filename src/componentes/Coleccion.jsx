@@ -1,5 +1,3 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import { useCart } from './CartContext';
 
 const productos = [
@@ -32,23 +30,34 @@ const productos = [
     precio: 45000
   },
   {
-    id: 5,
+  id: 5,
     nombre: "Sillón Patagonia",
     imagen: "/img/Sofá Patagonia.png",
     descripcion: "Sillón ergonómico con estructura de madera maciza y tapizado en lino natural. Confort y diseño en armonía.",
-    precio: 180000
+    precio: 180000,
+    categoria: "sillones"
   },
   {
     id: 6,
     nombre: "Mesa de Comedor Pampa",
     imagen: "/img/Mesa Comedor Pampa.png",
     descripcion: "Mesa de comedor extensible en roble natural. Perfecta para reuniones familiares y cenas especiales.",
-    precio: 220000
+    precio: 220000,
+    categoria: "comedores"
   }
 ];
 
-const Coleccion = () => {
+const Coleccion = ({ cambiarPagina }) => {
   const { addToCart } = useCart();
+
+  const agregarAlCarrito = (producto) => {
+    addToCart(producto);
+    alert(`¡${producto.nombre} agregado al carrito!`);
+  };
+
+  const verDetalles = (productoId) => {
+    cambiarPagina('detalle', productoId);
+  };
 
   return (
     <section className="coleccion">
@@ -61,26 +70,33 @@ const Coleccion = () => {
       <div className="coleccion-items">
         {productos.map(producto => (
           <article key={producto.id}>
-            <img 
-              src={producto.imagen} 
-              alt={producto.nombre}
-              onError={(e) => {
-                e.target.src = '/img/placeholder.jpg';
-              }}
-            />
+            <img src={producto.imagen} alt={producto.nombre} />
             <h3>{producto.nombre}</h3>
             <p>{producto.descripcion}</p>
             <div>
-              <Link to="/contacto">Consultar</Link>
-              <Link to={`/detalle-producto/${producto.id}`}>Ver detalles →</Link>
+              <button 
+                onClick={() => cambiarPagina('contacto')}
+                className="boton-consultar"
+              >
+                Consultar
+              </button>
+              <button 
+                onClick={() => verDetalles(producto.id)}
+                className="boton-detalles"
+              >
+                Ver detalles →
+              </button>
             </div>
           </article>
         ))}
       </div>
 
-      <Link to="/catalogo" className="btn-primary">
+      <button 
+        onClick={() => cambiarPagina('catalogo')}
+        className="btn-primary"
+      >
         Ver colección completa
-      </Link>
+      </button>
     </section>
   );
 };

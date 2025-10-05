@@ -1,7 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-const Principal = () => {  // ← Cambiado el nombre
+const Principal = ({ cambiarPagina }) => {
   return (
     <section className="presentacion">
       <div>
@@ -18,8 +15,18 @@ const Principal = () => {  // ← Cambiado el nombre
           </p>
         </div>
         <div>
-          <Link to="/catalogo">Ver Colección</Link>
-          <Link to="/contacto">Contactar</Link>
+          <button 
+            onClick={() => cambiarPagina('catalogo')}
+            className="boton-primario"
+          >
+            Ver Colección
+          </button>
+          <button 
+            onClick={() => cambiarPagina('contacto')}
+            className="boton-secundario"
+          >
+            Contactar
+          </button>
         </div>
       </div>
       <div>
@@ -29,4 +36,4 @@ const Principal = () => {  // ← Cambiado el nombre
   );
 };
 
-export default Principal;  // ← Cambiado
+export default Principal;
