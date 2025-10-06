@@ -54,14 +54,15 @@ muebleria-hermanos-jota-v2/
 ├── .gitignore
 └── README.md
 
-
+```
 ---
 
 ## Instalación Rápida
 
 ### Clonar el repositorio
 
-```bash
+```
+bash
 git clone https://github.com/LucasLeanza/muebleria-hermanos-jota-v2.git
 cd muebleria-hermanos-jota-v2
 ```
@@ -84,20 +85,11 @@ npm install
 npm run dev
 ```
 
-App corriendo en `http://localhost:3001`.
+App corriendo en `http://localhost:5174/`.
 
 ---
 
 
-## Contribuciones
-
-1. Haz un fork del repositorio.
-2. Crea una nueva rama: `git checkout -b feature/nueva-caracteristica`.
-3. Haz tus cambios y commit: `git commit -am 'Añadir nueva característica'`.
-4. Push a tu rama: `git push origin feature/nueva-caracteristica`.
-5. Abre un Pull Request con tus cambios.
-
----
 
 ## Licencia
 
