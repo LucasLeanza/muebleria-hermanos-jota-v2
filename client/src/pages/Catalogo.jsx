@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useCart } from "../components/CartContext";
 import ProductCard from "../components/ProductCard.jsx";
 
-export default function Catalogo() {
+export default function Catalogo({ cambiarPagina }) {
+  const { addToCart } = useCart();
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,6 +25,11 @@ export default function Catalogo() {
       });
   }, []);
 
+  const agregarAlCarrito = (producto) => {
+    addToCart(producto);
+    alert(`¡${producto.nombre} agregado al carrito!`);
+  };
+
   if (loading) return <p>Cargando productos...</p>;
   if (error) return <p>{error}</p>;
 
@@ -31,11 +38,17 @@ export default function Catalogo() {
       <h2>Catálogo de Productos</h2>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
         {productos.map((producto) => (
-          <ProductCard key={producto.id} producto={producto} />
+          <ProductCard
+            key={producto.id}
+            producto={producto}
+            onVerDetalle={() => cambiarPagina("detalle", producto.id)}
+            onAgregarCarrito={() => agregarAlCarrito(producto)}
+          />
         ))}
       </div>
     </div>
   );
 }
+
 
 

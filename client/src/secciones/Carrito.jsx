@@ -34,11 +34,7 @@ const Carrito = ({ cambiarPagina }) => {
         <ul className="carrito-lista">
           {cartItems.map(item => (
             <li key={item.id} className="carrito-item">
-              <img
-                src={`http://localhost:3000${item.imagen || item.img || '/images/placeholder.jpg'}`}
-                alt={item.nombre}
-                 onError={(e) => { e.target.src = '/img/placeholder.jpg'; }}
-                />
+              <img src={item.imagen} alt={item.nombre} />
               
               <div className="info">
                 <span className="nombre">{item.nombre}</span>
