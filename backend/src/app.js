@@ -19,9 +19,6 @@ const ACCEPTED_ORIGINS = [
   'http://127.0.0.1:3000'
 ]
 
-
-
-
 app.use(
   cors({
     origin: (origin, cb) => {
