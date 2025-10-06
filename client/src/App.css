@@ -26,7 +26,6 @@ body {
   line-height: 1.6;
 }
 
-/* HEADER */
 .header {
   width: 100%;
 }
@@ -120,7 +119,6 @@ body {
   padding: 0;
 }
 
-/* HERO/PRINCIPAL */
 .presentacion {
   display: flex;
   flex-direction: column;
@@ -205,7 +203,6 @@ p {
   border: 6px solid #e0d7c9;
 }
 
-/* ESENCIA */
 .esencia {
   padding: 2rem 1rem;
   background-color: #fff;
@@ -243,7 +240,6 @@ p {
   font-weight: normal;
 }
 
-/* COLECCION */
 .coleccion {
   padding: 2rem 1rem;
   background-color: #F5E6D3;
@@ -357,7 +353,6 @@ p {
   color: white;
 }
 
-/* CATALOGO */
 .catalogo-encabezado {
   text-align: center;
   padding: 2.5rem 1rem 1.75rem;
@@ -523,7 +518,6 @@ p {
   background-color: #7a3e23;
 }
 
-/* DETALLE PRODUCTO */
 .detalle-card {
   max-width: 1100px;
   margin: 3rem auto;
@@ -596,7 +590,6 @@ p {
   background-color: #7a3319 !important;
 }
 
-/* CARRITO */
 .carrito-lista {
   list-style: none;
   padding: 1.5rem;
@@ -614,7 +607,6 @@ p {
 .carrito-item:last-child {
   border-bottom: none;
 }
-
 
 .carrito-item img {
   width: 80px;
@@ -700,7 +692,6 @@ p {
   color: #222;
 }
 
-/* CONTACTO */
 .card-box {
   max-width: 600px;
   margin: 2rem auto;
@@ -789,7 +780,6 @@ p {
   margin: 0.3rem 0;
 }
 
-/* FOOTER */
 .footer {
   background-color: #8b3e2f;
   color: #fff;
@@ -840,16 +830,13 @@ p {
   color: #ddd;
 }
 
-/* RESPONSIVE */
 @media (min-width: 768px) {
   .nav {
     padding: 20px 80px;
   }
-
   .nav-toggle {
     display: none;
   }
-
   .nav-menu {
     position: static;
     box-shadow: none;
@@ -864,15 +851,12 @@ p {
     gap: 1.5rem;
     flex-direction: row;
   }
-
   .nav-menu li {
     margin: 0;
   }
-
   .logo {
     height: 55px;
   }
-
   .presentacion {
     flex-direction: row;
     align-items: center;
@@ -881,46 +865,36 @@ p {
     max-width: 1200px;
     margin: 0 auto;
   }
-
   .presentacion > div {
     flex: 1;
     max-width: 50%;
   }
-
   .presentacion img {
     max-width: 100%;
     height: auto;
   }
-
   h1 {
     font-size: 4rem;
   }
-
   h2 {
     font-size: 2rem;
   }
-
   .esencia {
     padding: 4rem 10%;
   }
-
   .esencia > div:last-of-type {
     gap: 3rem;
   }
-
   .coleccion {
     padding: 4rem 10%;
   }
-
   .coleccion-items {
     grid-template-columns: repeat(3, 1fr);
   }
-
   .footer {
     grid-template-columns: repeat(3, 1fr);
     padding: 3rem 10%;
   }
-
   .catalogo {
     width: 80%;
     margin: 0 auto;
@@ -929,20 +903,17 @@ p {
 
 @media (max-width: 768px) {
   .detalle-card {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
-  
   .carrito-item {
     flex-direction: column;
     align-items: flex-start;
   }
-  
   .cantidad-precio {
     width: 100%;
     justify-content: space-between;
     margin-top: 1rem;
   }
-  
   .cart-text {
     display: none;
   }
@@ -956,4 +927,93 @@ p {
 
 main {
   flex: 1;
+}
+
+/* UI del formulario (integrado a la paleta global) */
+.ui-section {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--color-blanco);
+  color: #3E2723;
+  border: 1px solid #E6D8C2;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(62, 39, 35, 0.10);
+  text-align: left;
+}
+
+.ui-title {
+  margin: 0 0 1rem 0;
+  font-family: var(--fuente-secundaria);
+  color: var(--color-primario);
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.ui-label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+  color: var(--color-primario);
+}
+
+.ui-input,
+.ui-textarea,
+.ui-select {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #3E2723;
+  font-family: var(--fuente-principal);
+  resize: vertical;
+}
+
+.ui-input:focus,
+.ui-textarea:focus,
+.ui-select:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 4px rgba(160,82,45,0.3);
+}
+
+.ui-button {
+  margin-top: 16px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-primario);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: background 0.3s ease, transform 0.05s ease;
+}
+
+.ui-button:hover {
+  background: #7a3e23;
+}
+
+.ui-button:active {
+  transform: translateY(1px);
+}
+
+.ui-ok {
+  margin-top: 12px;
+  color: var(--color-secundario);
+  font-weight: bold;
+  text-align: center;
+}
+
+.ui-success-box {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(21, 87, 36, .25);
 }

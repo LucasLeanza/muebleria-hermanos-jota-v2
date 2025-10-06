@@ -1,104 +1,84 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
-const Contacto = () => {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    asunto: '',
-    mensaje: ''
-  });
+function ContactForm() {
+  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
+  const [asunto, setAsunto] = useState("");
+  const [mensaje, setMensaje] = useState("");
   const [enviado, setEnviado] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
+    console.log("Contacto:", { nombre, email, asunto, mensaje });
     setEnviado(true);
-    setFormData({ nombre: '', email: '', asunto: '', mensaje: '' });
-    
-    setTimeout(() => {
-      setEnviado(false);
-    }, 5000);
-  };
+    setNombre("");
+    setEmail("");
+    setAsunto("");
+    setMensaje("");
+  }
+
+  useEffect(() => {
+    if (!enviado) return;
+    const t = setTimeout(() => setEnviado(false), 5000);
+    return () => clearTimeout(t);
+  }, [enviado]);
 
   return (
-    <main>
-      <form id="contacto" className="card-box" onSubmit={handleSubmit}>
-        <h2>Contáctanos</h2>
-        
-        {enviado && (
-          <div style={{
-            backgroundColor: '#d4edda',
-            color: '#155724',
-            padding: '1rem',
-            borderRadius: '8px',
-            marginBottom: '1rem'
-          }}>
-            ¡Mensaje enviado correctamente! Te contactaremos pronto.
-          </div>
-        )}
+    <main className="ui-section">
+      <h2 className="ui-title">Contacto</h2>
 
-        <div className="form-group">
-          <label htmlFor="nombre">Nombre:</label>
-          <input
-            type="text"
-            id="nombre"
-            name="nombre"
-            placeholder="Escriba su nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-            required
-          />
+      {enviado && (
+        <div role="status" className="ui-success-box">
+          ¡Mensaje enviado correctamente! Te contactaremos pronto.
         </div>
+      )}
 
-        <div className="form-group">
-          <label htmlFor="email">Correo electrónico:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Escriba su email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="card-box" noValidate>
+        <label className="ui-label" htmlFor="nombre">Nombre</label>
+        <input
+          id="nombre"
+          type="text"
+          className="ui-input"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          required
+        />
 
-        <div className="form-group">
-          <label htmlFor="asunto">Asunto:</label>
-          <input
-            type="text"
-            id="asunto"
-            name="asunto"
-            placeholder="Ej: Consulta sobre mesa de comedor"
-            value={formData.asunto}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <label className="ui-label" htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          className="ui-input"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-        <div className="form-group">
-          <label htmlFor="mensaje">Mensaje:</label>
-          <textarea
-            id="mensaje"
-            name="mensaje"
-            placeholder="Escriba su consulta aquí"
-            rows="5"
-            value={formData.mensaje}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <label className="ui-label" htmlFor="asunto">Asunto</label>
+        <input
+          id="asunto"
+          type="text"
+          className="ui-input"
+          placeholder="Ej: Consulta sobre mesa de comedor"
+          value={asunto}
+          onChange={(e) => setAsunto(e.target.value)}
+          required
+        />
 
-        <button type="submit">Enviar Mensaje</button>
+        <label className="ui-label" htmlFor="mensaje">Mensaje</label>
+        <textarea
+          id="mensaje"
+          rows={5}
+          className="ui-textarea"
+          value={mensaje}
+          onChange={(e) => setMensaje(e.target.value)}
+          required
+        />
+
+        <button type="submit" className="ui-button">Enviar</button>
       </form>
 
-      <section className="locales card-box">
+      <section className="locales card-box" style={{ marginTop: "1.5rem" }}>
         <h3>Nuestro Local</h3>
         <address>
           <p>Av. San Juan 2847</p>
@@ -109,6 +89,6 @@ const Contacto = () => {
       </section>
     </main>
   );
-};
+}
 
-export default Contacto;
+export default ContactForm;
