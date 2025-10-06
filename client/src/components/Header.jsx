@@ -17,7 +17,7 @@ const Header = ({ cambiarPagina, paginaActual }) => {
           onClick={() => irA('inicio')}
           className="boton-logo"
         >
-          <img src="/img/logo.svg" alt="Logo de Hermanos Jota" className="logo" />
+          <img src="http://localhost:3000/images/logo.svg" alt="Logo de Hermanos Jota" className="logo" />
         </button>
         
         <button 

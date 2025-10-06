@@ -30,7 +30,7 @@ const Principal = ({ cambiarPagina }) => {
         </div>
       </div>
       <div>
-        <img src="/img/Aparador Uspallata.png" alt="Aparador Uspallata" />
+        <img src="http://localhost:3000/images/Aparador_Uspallata.png" alt="Aparador Uspallata" />
       </div>
     </section>
   );

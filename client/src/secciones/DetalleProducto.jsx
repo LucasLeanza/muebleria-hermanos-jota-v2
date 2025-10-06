@@ -1,101 +1,80 @@
 import { useState, useEffect } from 'react';
-import { useCart } from '../componentes/CartContext';
-
-const productosCompletos = [
-  {
-    id: 1,
-    nombre: "Aparador Uspallata",
-    imagen: "/img/Aparador Uspallata.png",
-    descripcion: "Aparador de roble macizo con detalles en herrajes negros. Ideal para salas de estar espaciosas.",
-    precio: 150000,
-    detalles: [
-      "Madera: Roble macizo certificado FSC",
-      "Acabado: Aceite natural de linaza",
-      "Medidas: 180cm x 45cm x 85cm",
-      "Peso: 65kg",
-      "Garantía: 5 años"
-    ],
-    caracteristicas: "Este aparador combina la calidez de la madera maciza con herrajes modernos en negro mate. Perfecto para almacenar vajilla y objetos decorativos."
-  },
-  {
-    id: 2,
-    nombre: "Biblioteca Recoleta",
-    imagen: "/img/Biblioteca Recoleta.png",
-    descripcion: "Sistema modular con estructura Sage Green y repisas de roble claro. Diseño adaptable y funcional.",
-    precio: 120000,
-    detalles: [
-      "Estructura: Pintura ecológica Sage Green",
-      "Repisas: Roble claro de 2.5cm de espesor",
-      "Sistema: Modular y expandible",
-      "Medidas base: 120cm x 35cm x 200cm",
-      "Montaje: Incluye instrucciones y herrajes"
-    ],
-    caracteristicas: "Diseñada para amantes de los libros, esta biblioteca modular permite personalizar el espacio según tus necesidades."
-  },
-  {
-    id: 3,
-    nombre: "Mesa de Centro Araucaria",
-    imagen: "/img/Mesa de Centro Araucaria.png",
-    descripcion: "Mesa de centro con sobre de mármol Patagonia y base de nogal. Minimalista y elegante para salas contemporáneas.",
-    precio: 85000,
-    detalles: [
-      "Sobre: Mármol Patagonia de 3cm",
-      "Base: Nogal macizo",
-      "Acabado: Cera natural",
-      "Medidas: 120cm x 60cm x 40cm",
-      "Peso: 45kg"
-    ],
-    caracteristicas: "La combinación del mármol patagónico con la base de nogal crea un contraste único."
-  },
-  {
-    id: 4,
-    nombre: "Mesa de Noche Aconcagua",
-    imagen: "/img/Mesa de Noche Aconcagua.png",
-    descripcion: "Mesa de noche en roble FSC® con cajón oculto. Funcional y discreta para cualquier estilo de dormitorio.",
-    precio: 45000,
-    detalles: [
-      "Madera: Roble FSC® certificado",
-      "Cajón: Corredera suave con paro suave",
-      "Acabado: Aceite y cera naturales",
-      "Medidas: 50cm x 40cm x 55cm",
-      "Peso: 12kg"
-    ],
-    caracteristicas: "Diseñada para espacios reducidos, esta mesa de noche maximiza el almacenamiento sin sacrificar elegancia."
-  }
-];
+import { useCart } from '../components/CartContext';
 
 const DetalleProducto = ({ productoId, cambiarPagina }) => {
   const [producto, setProducto] = useState(null);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(null);
   const { addToCart } = useCart();
 
   useEffect(() => {
-    const productoEncontrado = productosCompletos.find(p => p.id === productoId);
-    setProducto(productoEncontrado);
+    if (!productoId) return;
+
+    setCargando(true);
+    fetch(`http://localhost:3000/api/productos/${productoId}`)
+      .then(res => {
+        if (!res.ok) throw new Error('Producto no encontrado');
+        return res.json();
+      })
+      .then(data => {
+        setProducto(data);
+        setCargando(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setError('Producto no encontrado');
+        setCargando(false);
+      });
   }, [productoId]);
 
-  if (!producto) {
+  const agregarAlCarrito = () => {
+    if (producto) {
+      addToCart(producto);
+      alert(`¡${producto.nombre} agregado al carrito!`);
+    }
+  };
+
+  if (cargando) {
+    return (
+      <main>
+        <p style={{ textAlign: 'center' }}>Cargando producto...</p>
+      </main>
+    );
+  }
+
+  if (error) {
     return (
       <main>
         <div style={{ textAlign: 'center', padding: '2rem' }}>
-          <p>Producto no encontrado</p>
+          <p>{error}</p>
           <button onClick={() => cambiarPagina('catalogo')}>Volver al Catálogo</button>
         </div>
       </main>
     );
   }
 
-  const agregarAlCarrito = () => {
-    addToCart(producto);
-    alert(`¡${producto.nombre} agregado al carrito!`);
-  };
+  if (!producto) return null;
+
+  // Separar Características y Detalles Técnicos
+  const caracteristicas = producto.descripcion.filter(d =>
+    d.startsWith('Medidas') || d.startsWith('Materiales') || d.startsWith('Acabado')
+  );
+
+  const detallesTecnicos = producto.descripcion.filter(d =>
+    !d.startsWith('Medidas') && !d.startsWith('Materiales') && !d.startsWith('Acabado')
+  );
 
   return (
     <main>
       <div className="detalle-card">
         <div>
-          <img src={producto.imagen} alt={producto.nombre} />
+          <img
+            src={`http://localhost:3000${producto.img || '/images/placeholder.jpg'}`}
+            alt={producto.nombre}
+            onError={e => { e.target.src = '/img/placeholder.jpg'; }}
+          />
         </div>
-        
+
         <div className="info">
           <button 
             onClick={() => cambiarPagina('catalogo')}
@@ -106,18 +85,21 @@ const DetalleProducto = ({ productoId, cambiarPagina }) => {
 
           <h1>{producto.nombre}</h1>
           <p className="precio">${producto.precio.toLocaleString()}</p>
-          <p>{producto.descripcion}</p>
-          
+
           <h3>Características</h3>
-          <p>{producto.caracteristicas}</p>
+          {caracteristicas.length > 0 ? (
+            <ul className="detalles">
+              {caracteristicas.map((c, i) => <li key={i}>{c}</li>)}
+            </ul>
+          ) : <p>No hay características disponibles.</p>}
 
           <h3>Detalles Técnicos</h3>
-          <ul className="detalles">
-            {producto.detalles.map((detalle, index) => (
-              <li key={index}>{detalle}</li>
-            ))}
-          </ul>
-          
+          {detallesTecnicos.length > 0 ? (
+            <ul className="detalles">
+              {detallesTecnicos.map((d, i) => <li key={i}>{d}</li>)}
+            </ul>
+          ) : <p>No hay detalles disponibles.</p>}
+
           <button 
             className="btn-carrito"
             onClick={agregarAlCarrito}

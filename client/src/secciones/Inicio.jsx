@@ -1,6 +1,6 @@
-import Principal from '../componentes/Principal';
-import Esencia from '../componentes/Esencia';
-import Coleccion from '../componentes/Coleccion';
+import Principal from '../components/Principal';
+import Esencia from '../components/Esencia';
+import Coleccion from '../components/Coleccion';
 
 const Inicio = ({ cambiarPagina }) => {
   return (

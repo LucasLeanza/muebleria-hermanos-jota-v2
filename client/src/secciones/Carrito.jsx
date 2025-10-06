@@ -1,4 +1,4 @@
-import { useCart } from '../componentes/CartContext';
+import { useCart } from '../components/CartContext';
 
 const Carrito = ({ cambiarPagina }) => {
   const { cartItems, removeFromCart, updateQuantity, clearCart, cartTotal } = useCart();
@@ -34,7 +34,11 @@ const Carrito = ({ cambiarPagina }) => {
         <ul className="carrito-lista">
           {cartItems.map(item => (
             <li key={item.id} className="carrito-item">
-              <img src={item.imagen} alt={item.nombre} />
+              <img
+                src={`http://localhost:3000${item.imagen || item.img || '/images/placeholder.jpg'}`}
+                alt={item.nombre}
+                 onError={(e) => { e.target.src = '/img/placeholder.jpg'; }}
+                />
               
               <div className="info">
                 <span className="nombre">{item.nombre}</span>

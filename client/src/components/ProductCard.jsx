@@ -1,21 +1,31 @@
 export default function ProductCard({ producto, onVerDetalle, onAgregarCarrito }) {
   return (
-    <div style={{ border: "1px solid #ccc", padding: "1rem", width: "250px" }}>
-      <img
-        src={`http://localhost:3000${producto.img || producto.imagen || "/images/placeholder.jpg"}`}
-        alt={producto.nombre}
-        style={{ width: "100%", height: "auto" }}
-        onError={(e) => {
-          e.target.src = "/img/placeholder.jpg";
-        }}
-      />
-      <h3>{producto.nombre}</h3>
-      {producto.medida && <p>{producto.medida}</p>}
-      {producto.materiales && <p>{producto.materiales}</p>}
-      <p>Precio: ${producto.precio.toLocaleString()}</p>
-      <div style={{ marginTop: "0.5rem", display: "flex", justifyContent: "space-between" }}>
-        <button onClick={onVerDetalle}>Ver Detalles</button>
-        <button onClick={onAgregarCarrito}>Agregar al Carrito</button>
+    <div className="productos-card">
+      <div className="img-container">
+        <img
+          src={`http://localhost:3000${producto.img || producto.imagen || "/img/placeholder.jpg"}`}
+          alt={producto.nombre}
+          className="producto-img"
+          onError={(e) => {
+            e.target.src = "/img/placeholder.jpg";
+          }}
+        />
+      </div>
+
+      <div className="producto-info">
+        <h3 className="producto-nombre">{producto.nombre}</h3>
+        {producto.medida && <p>{producto.medida}</p>}
+        {producto.materiales && <p>{producto.materiales}</p>}
+        <p className="producto-precio">${producto.precio.toLocaleString()}</p>
+      </div>
+
+      <div className="producto-botones">
+        <button className="ver-detalles" onClick={onVerDetalle}>
+          Ver Detalles
+        </button>
+        <button className="agregar-carrito" onClick={onAgregarCarrito}>
+          Agregar al Carrito
+        </button>
       </div>
     </div>
   );
