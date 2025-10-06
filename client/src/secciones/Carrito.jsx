@@ -28,7 +28,7 @@ const Carrito = ({ cambiarPagina }) => {
 
   return (
     <main>
-      <section className="card-box">
+      <section className="card-box cart-box">
         <h2>Tu Carrito de Compras</h2>
         
         <ul className="carrito-lista">
@@ -42,7 +42,7 @@ const Carrito = ({ cambiarPagina }) => {
               
               <div className="info">
                 <span className="nombre">{item.nombre}</span>
-                <span className="descripcion">{item.descripcion}</span>
+                <span className="descripcion">{Array.isArray(item.descripcion) ? item.descripcion[0] : item.descripcion}</span>
               </div>
 
               <div className="cantidad-precio">
