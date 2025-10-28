@@ -1,85 +1,77 @@
-import crypto from 'node:crypto'
-import * as store from '../dataStore.js'
-import { validateProductoCreate, validateProductoUpdate } from '../schemas/producto.schema.js'
+import { Product } from '../models/producto.model.js'
+import mongoose from 'mongoose'
+import { handleMongooseError } from '../middlewares/mongoose-error-handler.js'
+import { ensureValidId } from '../middlewares/mongoose-valid-id-handler.js'
 
-// GET /api/productos
-export async function list(req, res, next) {
+async function createProduct(req, res){
   try {
-    const data = store.getAll()
-    return res.json(data)
-  } catch (err) {
-    next(err)
+    const product = await Product.create(req.body)
+    return res.status(201).json(product)
+  } catch(error) {
+    return handleMongooseError(res, error)
   }
 }
 
-// GET /api/productos/:id
-export async function detail(req, res, next) {
+async function getProducts(req, res) {
   try {
-    const { id } = req.params
-    const item = store.getById(id)
-    if (!item) {
-      return res.status(404).json({ error: { message: 'Producto no encontrado' } })
-    }
-    return res.json(item)
-  } catch (err) {
-    next(err)
+    const products = await Product.find()
+    return res.json(products)
+  } catch (error) {
+    return res.status(500).json({error: 'Server Error'})
   }
 }
 
-// POST /api/productos
-export async function create(req, res, next) {
+async function getProductById(req, res) {
+  const { id } = req.params
+  if (!ensureValidId(res, id)) return
+
   try {
-    const parsed = validateProductoCreate(req.body)
-    if (!parsed.success) {
-      return res.status(400).json({ error: { message: 'Datos inválidos', details: parsed.error.flatten() } })
+    const product = await Product.findById(id)
+    if (!product){
+      return res.status(404).json({error: 'Producto no encontrado'})
     }
 
-    const nuevo = {
-      id: crypto.randomUUID(),
-      ...parsed.data
-    }
-
-    const saved = await store.create(nuevo)
-    return res.status(201).json(saved)
-  } catch (err) {
-    next(err)
+    return res.json(product)
+  } catch (error) {
+    return handleMongooseError(res, error)
   }
 }
 
-// PATCH /api/productos/:id
-export async function update(req, res, next) {
+async function updateProduct(req, res) {
+  const { id } = req.params
+  if (!ensureValidId(res, id)) return
+
   try {
-    const parsed = validateProductoUpdate(req.body)
-    if (!parsed.success) {
-      return res.status(400).json({ error: { message: 'Datos inválidos' } })
+    const product = await Product.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true
+    })
+
+    if (!product) {
+      return res.status(404).json({error: 'Producto no encontrado'})
     }
 
-    if (Object.keys(parsed.data).length === 0) {
-      return res.status(400).json({ error: { message: 'No se enviaron cambios' } })
-    }
-
-    const { id } = req.params
-    const updated = await store.updatePartial(id, parsed.data)
-    if (!updated) {
-      return res.status(404).json({ error: { message: 'Producto no encontrado' } })
-    }
-
-    return res.json(updated)
-  } catch (err) {
-    next(err)
+    return res.json(product)
+  } catch (error) {
+    return handleMongooseError(res, error)
   }
 }
 
-// DELETE /api/productos/:id
-export async function destroy(req, res, next) {
+async function deleteProduct(req, res) {
+  const { id } = req.params
+  if (!ensureValidId(res, id)) return
+
   try {
-    const { id } = req.params
-    const ok = await store.remove(id)
-    if (!ok) {
-      return res.status(404).json({ error: { message: 'Producto no encontrado' } })
+    const product = await Product.findByIdAndDelete(id)
+
+    if (!product) {
+      return res.status(404).json({error: 'Producto no encontrado'})
     }
-    return res.status(204).end()
-  } catch (err) {
-    next(err)
+
+    return res.status(204).send()
+  } catch (error) {
+    return handleMongooseError(res, error)
   }
 }
+
+export { createProduct, getProducts, getProductById, updateProduct, deleteProduct }

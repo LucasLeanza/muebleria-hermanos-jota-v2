@@ -2,7 +2,6 @@ import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
-
 import productosRouter from './routes/productos.routes.js'
 import notFound from './middlewares/not-found.js'
 import errorHandler from './middlewares/error-handler.js'
