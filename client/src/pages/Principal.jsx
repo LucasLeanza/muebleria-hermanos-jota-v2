@@ -15,6 +15,7 @@ const Principal = ({ cambiarPagina }) => {
           </p>
         </div>
         <div>
+            Crear producto
           <button 
             onClick={() => cambiarPagina('catalogo')}
             className="boton-primario"
@@ -26,6 +27,13 @@ const Principal = ({ cambiarPagina }) => {
             className="boton-secundario"
           >
             Contactar
+          </button>
+          {/* NUEVO BOTÓN PARA PROBAR EL FORMULARIO */}
+          <button 
+            onClick={() => cambiarPagina('crearProducto')}
+            className="boton-terciario"
+          >
+            Probar Formulario
           </button>
         </div>
       </div>
