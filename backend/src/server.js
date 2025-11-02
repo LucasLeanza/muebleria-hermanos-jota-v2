@@ -1,15 +1,22 @@
 import app from './app.js'
-import { load } from './dataStore.js'  // usa la export nombrada
+import { load } from './dataStore.js'  
+import connectDB from '../db.js'       
+import 'dotenv/config'                
 
 const PORT = process.env.PORT || 3000
 
-load()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`API lista en http://localhost:${PORT}`)
-    })
+// para conectar la base de datos
+Promise.all([
+  load(),           
+  connectDB()       // ← Conectar a mongo
+])
+.then(() => {
+  app.listen(PORT, () => {
+    console.log(`API lista en http://localhost:${PORT}`)
+    console.log('conectado a la base de datos')  
   })
-  .catch(err => {
-    console.error('No se puede cargar data/productos.json', err)
-    process.exit(1)
-  })
+})
+.catch(err => {
+  console.error('Error al cargar los datos:', err)
+  process.exit(1)
+})
