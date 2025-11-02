@@ -1,4 +1,4 @@
-import { useCart } from '../componentes/CartContext';
+import { useCart } from '../components/CartContext';
 
 const Carrito = ({ cambiarPagina }) => {
   const { cartItems, removeFromCart, updateQuantity, clearCart, cartTotal } = useCart();
@@ -28,17 +28,21 @@ const Carrito = ({ cambiarPagina }) => {
 
   return (
     <main>
-      <section className="card-box">
+      <section className="card-box cart-box">
         <h2>Tu Carrito de Compras</h2>
         
         <ul className="carrito-lista">
           {cartItems.map(item => (
             <li key={item.id} className="carrito-item">
-              <img src={item.imagen} alt={item.nombre} />
+              <img
+                src={`http://localhost:3000${item.imagen || item.img || '/images/placeholder.jpg'}`}
+                alt={item.nombre}
+                 onError={(e) => { e.target.src = '/img/placeholder.jpg'; }}
+                />
               
               <div className="info">
                 <span className="nombre">{item.nombre}</span>
-                <span className="descripcion">{item.descripcion}</span>
+                <span className="descripcion">{Array.isArray(item.descripcion) ? item.descripcion[0] : item.descripcion}</span>
               </div>
 
               <div className="cantidad-precio">
