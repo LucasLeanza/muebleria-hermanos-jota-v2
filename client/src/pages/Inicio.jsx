@@ -2,14 +2,14 @@ import Principal from '../components/Principal';
 import Esencia from '../components/Esencia';
 import Coleccion from '../components/Coleccion';
 
-const Inicio = ({ cambiarPagina }) => {
+function Inicio() {
   return (
-    <main>
-      <Principal cambiarPagina={cambiarPagina} />
+    <main className="inicio">
+      <Principal />
       <Esencia />
-      <Coleccion cambiarPagina={cambiarPagina} />
+      <Coleccion />
     </main>
   );
-};
+}
 
 export default Inicio;

@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { useCart } from './CartContext';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const Header = ({ cambiarPagina, paginaActual }) => {
+function Header() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const { cartCount } = useCart();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const irA = (pagina) => {
-    cambiarPagina(pagina);
+  const irA = (ruta) => {
+    navigate(ruta);
     setMenuAbierto(false);
   };
 
@@ -14,14 +17,18 @@ const Header = ({ cambiarPagina, paginaActual }) => {
     <header className="header">
       <nav className="nav">
         <button 
-          onClick={() => irA('inicio')}
+          onClick={() => irA('/')}
           className="boton-logo"
         >
-          <img src="http://localhost:3000/images/logo.svg" alt="Logo de Hermanos Jota" className="logo" />
+          <img 
+            src="/img/logo.svg" 
+            alt="Logo de Hermanos Jota" 
+            className="logo" 
+          />
         </button>
         
         <button 
-          onClick={() => irA('carrito')}
+          onClick={() => irA('/carrito')}
           className="cart-link"
         >
           <i className="fa-solid fa-shopping-cart"></i>
@@ -39,24 +46,24 @@ const Header = ({ cambiarPagina, paginaActual }) => {
         <ul className={`nav-menu ${menuAbierto ? 'active' : ''}`}>
           <li>
             <button 
-              onClick={() => irA('inicio')}
-              className={paginaActual === 'inicio' ? 'active' : ''}
+              onClick={() => irA('/')}
+              className={location.pathname === '/' ? 'active' : ''}
             >
               Inicio
             </button>
           </li>
           <li>
             <button 
-              onClick={() => irA('catalogo')}
-              className={paginaActual === 'catalogo' ? 'active' : ''}
+              onClick={() => irA('/catalogo')}
+              className={location.pathname === '/catalogo' ? 'active' : ''}
             >
               Colección
             </button>
           </li>
           <li>
             <button 
-              onClick={() => irA('contacto')}
-              className={paginaActual === 'contacto' ? 'active' : ''}
+              onClick={() => irA('/contacto')}
+              className={location.pathname === '/contacto' ? 'active' : ''}
             >
               Contacto
             </button>
@@ -65,6 +72,7 @@ const Header = ({ cambiarPagina, paginaActual }) => {
       </nav>
     </header>
   );
-};
+}
 
 export default Header;
+

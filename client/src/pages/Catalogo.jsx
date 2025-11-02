@@ -1,53 +1,48 @@
 import { useEffect, useState } from "react";
 import { useCart } from "../components/CartContext";
-import ProductCard from "../components/ProductCard.jsx";
+import ProductCard from "../components/ProductCard";
 
-
-export default function Catalogo({ cambiarPagina }) {
+function Catalogo() {
   const { addToCart } = useCart();
   const [productos, setProductos] = useState([]);
   const [busqueda, setBusqueda] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/productos")
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al obtener productos");
-        return res.json();
-      })
-      .then((data) => {
-        setProductos(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError("No se pudieron cargar los productos.");
-        setLoading(false);
-      });
+    let cancel = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/productos"); // ← API real (con proxy o backend levantado)
+        if (!res.ok) throw new Error("bad status");
+        const data = await res.json();
+        if (!cancel) setProductos(Array.isArray(data) ? data : []);
+      } catch (e) {
+        if (!cancel) setError("No se pudieron cargar los productos.");
+      } finally {
+        if (!cancel) setCargando(false);
+      }
+    })();
+    return () => { cancel = true; };
   }, []);
+
+  const productosFiltrados = productos.filter((p) =>
+    (p?.nombre || "").toLowerCase().includes(busqueda.toLowerCase())
+  );
 
   const agregarAlCarrito = (producto) => {
     addToCart(producto);
     alert(`¡${producto.nombre} agregado al carrito!`);
   };
 
-  const productosFiltrados = productos.filter((p) =>
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  );
-
-  if (loading) return <p>Cargando productos...</p>;
-  if (error) return <p>{error}</p>;
+  if (cargando) return <p style={{ textAlign: "center" }}>Cargando productos...</p>;
+  if (error) return <p style={{ textAlign: "center", color: "red" }}>{error}</p>;
 
   return (
     <main>
       <section className="catalogo-encabezado">
         <h1 className="catalogo-titulo">Nuestra Colección</h1>
-        <p className="catalogo-bajada">
-          Cada pieza es única, creada con amor y dedicación por nuestros
-          artesanos. Descubrí muebles que se convertirán en parte de tu historia
-          familiar.
-        </p>
+        <p className="catalogo-bajada">Explorá los muebles del catálogo.</p>
 
         <div className="catalogo-busqueda">
           <input
@@ -61,17 +56,16 @@ export default function Catalogo({ cambiarPagina }) {
       </section>
 
       <div className="catalogo">
-        {productosFiltrados.map((producto) => (
+        {productosFiltrados.map((p) => (
           <ProductCard
-            key={producto.id}
-            producto={producto}
-            onVerDetalle={() => cambiarPagina("detalle", producto.id)}
-            onAgregarCarrito={() => agregarAlCarrito(producto)}
+            key={p.id ?? p._id}
+            product={p}
+            onAddToCart={agregarAlCarrito}
           />
         ))}
       </div>
 
-      {productosFiltrados.length === 0 && (
+      {productos.length > 0 && productosFiltrados.length === 0 && (
         <div style={{ textAlign: "center", padding: "3rem" }}>
           <p>No se encontraron productos que coincidan con tu búsqueda.</p>
         </div>
@@ -79,3 +73,5 @@ export default function Catalogo({ cambiarPagina }) {
     </main>
   );
 }
+
+export default Catalogo;
