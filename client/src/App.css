@@ -919,6 +919,25 @@ p {
   }
 }
 
+@media (min-width: 769px) {
+  .header .nav {
+    display: flex;
+    align-items: center;
+  }
+
+  .boton-logo { order: 1; }
+
+  .nav-menu {
+    order: 2;
+    margin-left: 16px;
+  }
+
+  .cart-link {
+    order: 3;
+    margin-left: 12px;
+  }
+}
+
 .App {
   min-height: 100vh;
   display: flex;
@@ -929,7 +948,7 @@ main {
   flex: 1;
 }
 
-/* UI del formulario (integrado a la paleta global) */
+/* Formulario */
 .ui-section {
   max-width: 600px;
   margin: 2rem auto;

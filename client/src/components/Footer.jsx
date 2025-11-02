@@ -1,4 +1,8 @@
-const Footer = ({ cambiarPagina }) => {
+import { useNavigate } from "react-router-dom";
+
+function Footer() {
+  const navigate = useNavigate();
+
   return (
     <footer className="footer">
       <section className="footer-brand">
@@ -14,25 +18,25 @@ const Footer = ({ cambiarPagina }) => {
         <nav>
           <ul>
             <li>
-              <button 
-                onClick={() => cambiarPagina('inicio')}
-                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+              <button
+                onClick={() => navigate("/")}
+                style={{ background: "none", border: "none", color: "inherit", cursor: "pointer" }}
               >
                 Inicio
               </button>
             </li>
             <li>
-              <button 
-                onClick={() => cambiarPagina('catalogo')}
-                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+              <button
+                onClick={() => navigate("/catalogo")}
+                style={{ background: "none", border: "none", color: "inherit", cursor: "pointer" }}
               >
                 Colección
               </button>
             </li>
             <li>
-              <button 
-                onClick={() => cambiarPagina('contacto')}
-                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+              <button
+                onClick={() => navigate("/contacto")}
+                style={{ background: "none", border: "none", color: "inherit", cursor: "pointer" }}
               >
                 Contacto
               </button>
@@ -48,18 +52,16 @@ const Footer = ({ cambiarPagina }) => {
           <p>San Cristóbal, CABA</p>
           <p>+54 11 4567-8900</p>
           <p>
-            <a href="mailto:info@hermanosjota.com.ar">
-              info@hermanosjota.com.ar
-            </a>
+            <a href="mailto:info@hermanosjota.com.ar">info@hermanosjota.com.ar</a>
           </p>
         </address>
       </section>
 
       <div className="footer-bottom">
-        <p>© 2025 Hermanos Jota. Todos los derechos reservados.</p>
+        <p>© Hermanos Jota. Todos los derechos reservados.</p>
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;

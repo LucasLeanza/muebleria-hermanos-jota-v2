@@ -1,70 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import { useCart } from './CartContext';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Coleccion = ({ cambiarPagina }) => {
-  const { addToCart } = useCart();
-  const [productos, setProductos] = useState([]);
+function resolveImgPath(data) {
+  const s = data?.imagenUrl || data?.img || data?.imagen;
+  if (!s) return "/img/placeholder.jpg";
+  if (s.startsWith("http")) return s;
+  if (s.startsWith("/")) return s;
+  return `/img/${s}`;
+}
+
+function Coleccion() {
+  const navigate = useNavigate();
+  const [destacados, setDestacados] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/productos')
-      .then((res) => {
-        if (!res.ok) throw new Error(`Error ${res.status}`);
-        return res.json();
-      })
-      .then((data) => setProductos(data.slice(0, 3))) // 👈 solo 3 productos
-      .catch((err) => console.error('Error al obtener productos:', err));
+    (async () => {
+      try {
+        const res = await fetch("/api/productos");
+        if (!res.ok) throw new Error("bad status");
+        const all = await res.json();
+        setDestacados((all || []).slice(0, 3));
+      } catch {
+      }
+    })();
   }, []);
 
   return (
     <section className="coleccion">
-      <h2>Nuestra colección</h2>
-      <p>
-        Descubre una selección de piezas más emblemáticas, donde cada mueble
-        cuenta una historia de tradición y maestría artesanal.
-      </p>
+      <header>
+        <h2>Nuestra Colección</h2>
+        <p>Conocé algunas piezas destacadas y explorá todo el catálogo.</p>
+      </header>
 
-      <div className="coleccion-items">
-        {productos.length > 0 ? (
-          productos.map((producto) => (
-            <article key={producto.id}>
-              <img
-                src={`http://localhost:3000${producto.img || '/images/placeholder.jpg'}`}
-                alt={producto.nombre}
-                onError={(e) => {
-                  e.target.src = '/img/placeholder.jpg';
-                }}
-              />
-              <h3>{producto.nombre}</h3>
-              <p className="precio">${producto.precio.toLocaleString()}</p>
-              <div>
-                <button
-                  onClick={() => cambiarPagina('contacto')}
-                  className="boton-consultar"
-                >
-                  Consultar
-                </button>
-                <button
-                  onClick={() => cambiarPagina('detalle', producto.id)}
-                  className="boton-detalles"
-                >
-                  Ver detalles →
-                </button>
-              </div>
-            </article>
-          ))
-        ) : (
-          <p>Cargando productos...</p>
-        )}
+      {destacados.length > 0 && (
+        <div className="coleccion-grid">
+          {destacados.map((p) => {
+            const id = p.id ?? p._id;
+            return (
+              <article key={id} className="coleccion-card">
+                <img
+                  src={resolveImgPath(p)}
+                  alt={p.nombre}
+                  onError={(e) => (e.currentTarget.src = "/img/placeholder.jpg")}
+                />
+                <div className="info">
+                  <h3>{p.nombre}</h3>
+                  {p.precio != null && <p>${Number(p.precio).toLocaleString()}</p>}
+                  <div className="acciones">
+                    <button onClick={() => navigate(`/productos/${id}`)}>Ver Detalle</button>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
+
+      <div style={{ marginTop: "1rem", display: "flex", gap: "0.75rem" }}>
+        <button className="boton-primario" onClick={() => navigate("/catalogo")}>
+          Ver Colección Completa
+        </button>
+        <button className="boton-secundario" onClick={() => navigate("/contacto")}>
+          Contactar
+        </button>
       </div>
-
-      <button
-        onClick={() => cambiarPagina('catalogo')}
-        className="btn-primary"
-      >
-        Ver colección completa
-      </button>
     </section>
   );
-};
+}
 
 export default Coleccion;

@@ -1,29 +1,41 @@
-export default function ProductCard({ producto, onVerDetalle, onAgregarCarrito }) {
+import { Link } from "react-router-dom";
+
+function resolveImgPath(data) {
+  const s = data?.imagenUrl || data?.img || data?.imagen;
+  if (!s) return "/img/placeholder.jpg";
+  if (s.startsWith("http")) return s;
+  if (s.startsWith("/")) return s;
+  return `/img/${s}`;
+}
+
+function ProductCard({ product, onAddToCart }) {
+  const id = product.id ?? product._id;
+
   return (
     <div className="productos-card">
       <div className="img-container">
-        <img
-          src={`http://localhost:3000${producto.img || producto.imagen || "/img/placeholder.jpg"}`}
-          alt={producto.nombre}
-          className="producto-img"
-          onError={(e) => {
-            e.target.src = "/img/placeholder.jpg";
-          }}
-        />
+        <Link to={`/productos/${id}`} aria-label={`Ver detalle de ${product.nombre}`}>
+          <img
+            src={resolveImgPath(product)}
+            alt={product.nombre}
+            className="producto-img"
+            onError={(e) => (e.currentTarget.src = "/img/placeholder.jpg")}
+          />
+        </Link>
       </div>
 
       <div className="producto-info">
-        <h3 className="producto-nombre">{producto.nombre}</h3>
-        {producto.medida && <p>{producto.medida}</p>}
-        {producto.materiales && <p>{producto.materiales}</p>}
-        <p className="producto-precio">${producto.precio.toLocaleString()}</p>
+        <h3 className="producto-nombre">{product.nombre}</h3>
+        {product.precio != null && (
+          <p className="producto-precio">${Number(product.precio).toLocaleString()}</p>
+        )}
       </div>
 
       <div className="producto-botones">
-        <button className="ver-detalles" onClick={onVerDetalle}>
+        <Link to={`/productos/${id}`} className="ver-detalles">
           Ver Detalles
-        </button>
-        <button className="agregar-carrito" onClick={onAgregarCarrito}>
+        </Link>
+        <button onClick={() => onAddToCart?.(product)} className="agregar-carrito">
           Agregar al Carrito
         </button>
       </div>
@@ -31,3 +43,4 @@ export default function ProductCard({ producto, onVerDetalle, onAgregarCarrito }
   );
 }
 
+export default ProductCard;
