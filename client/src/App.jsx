@@ -9,6 +9,7 @@ import Catalogo from "./pages/Catalogo";
 import Contacto from "./pages/Contacto";
 import Carrito from "./pages/Carrito";
 import DetalleProducto from "./pages/DetalleProducto";
+import CrearProducto from "./pages/CrearProducto";
 
 import "./App.css";
 
