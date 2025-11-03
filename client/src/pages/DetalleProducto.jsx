@@ -36,7 +36,7 @@ function DetalleProducto() {
   useEffect(() => {
     if (!id) return;
     setCargando(true);
-    fetch(`${import.meta.env.VITE_API_URL}/api/productos` + id)
+    fetch(`${import.meta.env.VITE_API_URL}/api/productos/` + id)
       .then((res) => {
         if (!res.ok) throw new Error("Producto no encontrado");
         return res.json();
