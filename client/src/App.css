@@ -809,6 +809,10 @@ p {
   color: #e0d7c9;
 }
 
+.footer h3 {
+  color: var(--color-blanco);
+}
+
 .footer p, 
 .footer a {
   font-size: 0.95rem;
