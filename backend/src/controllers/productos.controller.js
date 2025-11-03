@@ -3,16 +3,16 @@ import mongoose from 'mongoose'
 import { handleMongooseError } from '../middlewares/mongoose-error-handler.js'
 import { ensureValidId } from '../middlewares/mongoose-valid-id-handler.js'
 
-async function createProduct(req, res){
+async function createProduct(req, res, next){
   try {
     const product = await Product.create(req.body)
     return res.status(201).json(product)
   } catch(error) {
-    return handleMongooseError(res, error)
+    next(error)
   }
 }
 
-async function getProducts(req, res) {
+async function getProducts(req, res, next) {
   try {
     const products = await Product.find()
     return res.json(products)
@@ -21,7 +21,7 @@ async function getProducts(req, res) {
   }
 }
 
-async function getProductById(req, res) {
+async function getProductById(req, res, next) {
   const { id } = req.params
   if (!ensureValidId(res, id)) return
 
@@ -33,11 +33,11 @@ async function getProductById(req, res) {
 
     return res.json(product)
   } catch (error) {
-    return handleMongooseError(res, error)
+    next(error)
   }
 }
 
-async function updateProduct(req, res) {
+async function updateProduct(req, res, next) {
   const { id } = req.params
   if (!ensureValidId(res, id)) return
 
@@ -53,11 +53,11 @@ async function updateProduct(req, res) {
 
     return res.json(product)
   } catch (error) {
-    return handleMongooseError(res, error)
+    next(error)
   }
 }
 
-async function deleteProduct(req, res) {
+async function deleteProduct(req, res, next) {
   const { id } = req.params
   if (!ensureValidId(res, id)) return
 
@@ -70,7 +70,7 @@ async function deleteProduct(req, res) {
 
     return res.status(204).send()
   } catch (error) {
-    return handleMongooseError(res, error)
+    next(error)
   }
 }
 
