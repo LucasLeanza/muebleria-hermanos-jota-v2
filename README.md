@@ -14,83 +14,189 @@
 
 ## Descripción del Proyecto
 
-**Mueblería Hermanos Jota v2** es una aplicación web para gestionar un catálogo de muebles, permitiendo a los usuarios visualizar productos, agregar al carrito y realizar compras en línea.
-La aplicación está dividida en dos partes principales:
+Proyecto **Full Stack MERN** desarrollado para el **Sprint 5 y 6** del curso de Desarrollo Web Full Stack (ITBA).
 
-* **Frontend (Cliente)**: Interfaz construida con React.
-* **Backend (Servidor)**: API RESTful que maneja productos y lógica del carrito.
-
-La separación frontend/backend facilita mantenimiento, escalabilidad y pruebas independientes.
+El objetivo es implementar un **catálogo de productos dinámico** con base de datos en **MongoDB Atlas** y una **API REST Express** desplegada en **Render**, consumida por un **frontend React** desplegado en **Vercel**.
 
 ---
 
-## Arquitectura y Decisiones Técnicas
+## 🚀 Tecnologías Utilizadas
 
-* **Frontend**: React, gestión de estado con contextos, comunicación con la API mediante `fetch`.
-* **Backend**: Node.js + Express, con endpoints REST para productos y carrito.
-* **Estructura de carpetas clara**: `client/` y `backend/`.
-* **Decisión de diseño**: Mantener lógica de negocio en el backend y dejar la UI y filtrado en frontend.
+**Frontend**
+
+* ⚛️ React + Vite
+* 🧭 React Router DOM
+* 🎨 CSS Modules
+* 🌐 Fetch API
+
+**Backend**
+
+* 🟢 Node.js + Express
+* 🍃 MongoDB Atlas + Mongoose
+* 🔐 Dotenv
+* 🔄 CORS
 
 ---
 
-## Estructura del Proyecto
+## 🧩 Estructura del Proyecto
 
 ```
 muebleria-hermanos-jota-v2/
-├── backend/                 # Servidor Express
-│   ├── src/                 # Código fuente
-│   │   ├── controllers/     # Controladores de rutas
-│   │   ├── models/          # Modelos de datos
-│   │   ├── routes/          # Rutas API
-│   │   └── server.js        # Configuración del servidor
-├── client/                  # Aplicación React
-│   ├── public/              # Archivos públicos
-│   └── src/                 # Código fuente
-│       ├── components/      # Componentes reutilizables
-│       ├── context/          # Contextos de React
-│       ├── pages/           # Páginas de la aplicación
-│       ├── App.js           # Componente principal
-│       └── index.js         # Punto de entrada
-├── .gitignore
+├── client/        → Frontend con React + Vite
+│   ├── src/
+│   │   ├── pages/ → Home, Productos, DetalleProducto, Contacto, CrearProducto
+│   │   ├── components/
+│   │   └── App.jsx
+│   └── package.json
+│
+├── backend/       → API REST con Express y Mongoose
+│   ├── models/Product.js
+│   ├── routes/productRoutes.js
+│   ├── controllers/productController.js
+│   ├── db.js
+│   ├── server.js
+│   └── .env (no se sube al repo)
+│
 └── README.md
-
 ```
+
 ---
 
-## Instalación Rápida
+## ⚙️ Configuración Local
 
-### Clonar el repositorio
+### 1️⃣ Clonar el repositorio
 
-```
-bash
+```bash
 git clone https://github.com/LucasLeanza/muebleria-hermanos-jota-v2.git
 cd muebleria-hermanos-jota-v2
 ```
 
-### Backend
+### 2️⃣ Configurar variables de entorno
+
+Crear un archivo `.env` dentro de la carpeta **/backend** con el siguiente contenido:
+
+```env
+PORT=4000
+MONGO_URI=tu_cadena_de_conexion_de_MongoDB_Atlas
+```
+
+### 3️⃣ Instalar dependencias
 
 ```bash
+# Backend
 cd backend
 npm install
-npm run dev
-```
 
-Servidor corriendo en `http://localhost:3000`.
-
-### Frontend
-
-```bash
+# Frontend
 cd ../client
 npm install
+```
+
+### 4️⃣ Ejecutar en modo desarrollo
+
+```bash
+# Backend
+npm run dev
+
+# Frontend
 npm run dev
 ```
 
-App corriendo en `http://localhost:5174/`.
+Por defecto el servidor corre en
+👉 `http://localhost:4000`
+y el cliente en
+👉 `http://localhost:5173`
 
 ---
 
+## 🗄️ Requisitos del Backend (API)
 
+### 🔌 Conexión a Base de Datos
 
-## Licencia
+* Conexión a **MongoDB Atlas** mediante variable de entorno (`MONGO_URI`) guardada en `.env`.
 
-Este proyecto está bajo licencia MIT.
+### 📦 Modelo de Datos (Product)
+
+```js
+const productSchema = new mongoose.Schema({
+  nombre: { type: String, required: true },
+  descripcion: String,
+  precio: { type: Number, required: true },
+  stock: Number,
+  imagenUrl: String
+});
+```
+
+### 🧠 CRUD Completo de Productos
+
+| Método     | Endpoint             | Descripción                     |
+| :--------- | :------------------- | :------------------------------ |
+| **GET**    | `/api/productos`     | Devuelve todos los productos    |
+| **GET**    | `/api/productos/:id` | Devuelve un producto por su ID  |
+| **POST**   | `/api/productos`     | Crea un nuevo producto          |
+| **PUT**    | `/api/productos/:id` | Actualiza un producto existente |
+| **DELETE** | `/api/productos/:id` | Elimina un producto por ID      |
+
+---
+
+## 💻 Requisitos del Frontend (React)
+
+### 🧭 Enrutamiento con React Router
+
+Rutas principales:
+
+* `/` → Página principal
+* `/productos` → Catálogo (fetch a la API `/api/productos`)
+* `/productos/:id` → Detalle dinámico (usa `useParams` + fetch)
+* `/contacto` → Formulario de contacto
+* `/admin/crear-producto` → Formulario de creación de productos
+
+### 🔁 Consumo de la API Real
+
+* Manejo de **estado de carga y error**.
+* Peticiones con `fetch` hacia el backend desplegado en Render.
+
+### 🧾 Página de Detalle Dinámica
+
+* Usa `useParams()` para obtener el ID desde la URL.
+* Realiza `GET /api/productos/:id` y muestra los detalles del producto.
+
+### 🧩 Formulario de Creación
+
+* Controlado con React.
+* Envía un `POST` a `/api/productos`.
+* Tras crear un producto, usa `useNavigate()` para redirigir al catálogo o detalle.
+
+### 🗑️ Funcionalidad de Borrado
+
+* En la página de detalle hay un botón **"Eliminar"**.
+* Al hacer clic, pide confirmación (`window.confirm()`) y realiza un `DELETE /api/productos/:id`.
+* Tras borrarlo, redirige al catálogo.
+
+---
+
+## 🌐 Deploys
+
+| Servicio              | URL                                                                                                |
+| :-------------------- | :------------------------------------------------------------------------------------------------- |
+| **Frontend (Vercel)** | [https://muebleria-hermanos-jota-v2-iota.vercel.app/](https://muebleria-hermanos-jota-v2-iota.vercel.app/)     |
+| **Backend (Render)**  | [https://muebleria-hermanos-jota-v2.onrender.com](https://muebleria-hermanos-jota-v2.onrender.com) |
+
+**Ejemplo de endpoint activo:**
+
+```
+GET https://muebleria-hermanos-jota-v2.onrender.com/api/productos
+```
+
+---
+
+## ✅ Entregables Sprint 5 y 6
+
+* 📁 Repositorio GitHub con carpetas `/client` y `/backend`
+* 🌐 Backend desplegado en **Render**
+* 💻 Frontend desplegado en **Vercel**
+* 🧾 README actualizado con:
+
+  * Enlaces de deploy
+  * Instrucciones para ejecución local
+  * Detalle de endpoints y estructura
