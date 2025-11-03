@@ -13,7 +13,7 @@ function Catalogo() {
     let cancel = false;
     (async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/productos"); // ← API real (con proxy o backend levantado)
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/productos`);
         if (!res.ok) throw new Error("bad status");
         const data = await res.json();
         if (!cancel) setProductos(Array.isArray(data) ? data : []);
