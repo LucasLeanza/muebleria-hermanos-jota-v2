@@ -2,13 +2,27 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext";
 
-function resolveImgPath(data) {
-  const s = data?.img || data?.imagen;
-  if (!s) return "/img/placeholder.jpg";
-  if (s.startsWith("http")) return s;
-  if (s.startsWith("/")) return s;
+const CORE = new Set([
+  '_id', 'id', '__v',
+  'nombre', 'precio', 'descripcion',
+  'imagenUrl', 'imageURL', 'img', 'imagen',
+  'createdAt', 'updatedAt'
+]);
+
+const pretty = (s) =>
+  s.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()).trim();
+
+const fmt = (v) => Array.isArray(v) ? v.join(', ')
+  : v && typeof v === 'object' ? JSON.stringify(v)
+    : typeof v === 'boolean' ? (v ? 'Sí' : 'No')
+      : v ?? '';
+
+const resolveImgPath = (p) => {
+  const s = p?.imagenUrl || p?.imageURL || p?.img || p?.imagen;
+  if (!s) return '/img/placeholder.jpg';
+  if (s.startsWith('http') || s.startsWith('/')) return s;
   return `/img/${s}`;
-}
+};
 
 function DetalleProducto() {
   const { id } = useParams();
@@ -22,7 +36,7 @@ function DetalleProducto() {
   useEffect(() => {
     if (!id) return;
     setCargando(true);
-    fetch(`/api/productos/${id}`)
+    fetch('http://localhost:3000/api/productos/' + id)
       .then((res) => {
         if (!res.ok) throw new Error("Producto no encontrado");
         return res.json();
@@ -68,30 +82,42 @@ function DetalleProducto() {
 
   if (!producto) return null;
 
-  const caracteristicas = (producto.descripcion || []).filter(
-    (d) =>
-      d.startsWith("Medidas") ||
-      d.startsWith("Materiales") ||
-      d.startsWith("Acabado")
+
+  const descList = Array.isArray(producto.descripcion)
+    ? producto.descripcion
+    : (typeof producto.descripcion === 'string'
+      ? producto.descripcion
+        .split(/\r?\n|[•·;-]+/)
+        .map(s => s.trim())
+        .filter(Boolean)
+      : []);
+
+  const caracteristicas = descList.filter(d =>
+    d.startsWith('Medidas') || d.startsWith('Materiales') || d.startsWith('Acabado')
   );
-  const detallesTecnicos = (producto.descripcion || []).filter(
-    (d) =>
-      !d.startsWith("Medidas") &&
-      !d.startsWith("Materiales") &&
-      !d.startsWith("Acabado")
+
+  const detallesTecnicos = descList.filter(d =>
+    !d.startsWith('Medidas') && !d.startsWith('Materiales') && !d.startsWith('Acabado')
   );
+
+  const extras = Object.entries(producto || {})
+    .filter(([k, v]) =>
+      !CORE.has(k) && v != null &&
+      !(Array.isArray(v) && v.length === 0) &&
+      !(typeof v === 'object' && v && Object.keys(v).length === 0)
+    );
+
+  // Descripción: soporta string o array con poco código
+  const desc = producto?.descripcion;
+
+
 
   return (
     <main>
       <div className="detalle-card">
         <div>
-          <img
-            src={resolveImgPath(producto)}
-            alt={producto.nombre}
-            onError={(e) => {
-              e.currentTarget.src = "/img/placeholder.jpg";
-            }}
-          />
+          <img src={resolveImgPath(producto)} alt={producto?.nombre}
+            onError={e => e.currentTarget.src = '/img/placeholder.jpg'} />
         </div>
 
         <div className="info">
@@ -108,29 +134,18 @@ function DetalleProducto() {
             ← Volver al catálogo
           </button>
 
-          <h1>{producto.nombre}</h1>
-          <p className="precio">${producto.precio?.toLocaleString()}</p>
 
-          <h3>Características</h3>
-          {caracteristicas.length ? (
-            <ul className="detalles">
-              {caracteristicas.map((c, i) => (
-                <li key={i}>{c}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>No hay características disponibles.</p>
-          )}
 
-          <h3>Detalles Técnicos</h3>
-          {detallesTecnicos.length ? (
-            <ul className="detalles">
-              {detallesTecnicos.map((d, i) => (
-                <li key={i}>{d}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>No hay detalles disponibles.</p>
+          <h3>Descripción</h3> {Array.isArray(desc) ? <ul className="detalles">{desc.map((d, i) => <li key={i}>{d}</li>)}</ul> : (desc ? <p>{desc}</p> : <p>Sin descripción</p>)}
+          {extras.length > 0 && (
+            <>
+              <h3>Otros Atributos</h3>
+              <ul className="detalles">
+                {extras.map(([k, v]) => (
+                  <li key={k}><strong>{pretty(k)}:</strong> {fmt(v)}</li>
+                ))}
+              </ul>
+            </>
           )}
 
           <button className="btn-carrito" onClick={agregarAlCarrito}>
