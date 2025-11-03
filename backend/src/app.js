@@ -35,4 +35,13 @@ app.use('/api/productos', productosRouter)
 app.use(notFound)
 app.use(errorHandler)
 
+app.get('/', (req, res) => {
+  res.send('OK: backend corriendo')
+})
+
+// health check para Render
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' })
+})
+
 export default app
