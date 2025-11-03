@@ -82,24 +82,6 @@ function DetalleProducto() {
 
   if (!producto) return null;
 
-
-  const descList = Array.isArray(producto.descripcion)
-    ? producto.descripcion
-    : (typeof producto.descripcion === 'string'
-      ? producto.descripcion
-        .split(/\r?\n|[•·;-]+/)
-        .map(s => s.trim())
-        .filter(Boolean)
-      : []);
-
-  const caracteristicas = descList.filter(d =>
-    d.startsWith('Medidas') || d.startsWith('Materiales') || d.startsWith('Acabado')
-  );
-
-  const detallesTecnicos = descList.filter(d =>
-    !d.startsWith('Medidas') && !d.startsWith('Materiales') && !d.startsWith('Acabado')
-  );
-
   const extras = Object.entries(producto || {})
     .filter(([k, v]) =>
       !CORE.has(k) && v != null &&
@@ -121,6 +103,10 @@ function DetalleProducto() {
         </div>
 
         <div className="info">
+          <h1>{producto.nombre}</h1>
+          {producto.precio != null && (
+            <p className="precio">${Number(producto.precio).toLocaleString()}</p>
+          )}
           <button
             onClick={() => navigate("/catalogo")}
             style={{
@@ -134,12 +120,11 @@ function DetalleProducto() {
             ← Volver al catálogo
           </button>
 
-
-
-          <h3>Descripción</h3> {Array.isArray(desc) ? <ul className="detalles">{desc.map((d, i) => <li key={i}>{d}</li>)}</ul> : (desc ? <p>{desc}</p> : <p>Sin descripción</p>)}
+          <h3>Descripción</h3> 
+          {Array.isArray(desc) ? <ul className="detalles">{desc.map((d, i) => <li key={i}>{d}</li>)}</ul> : (desc ? <p>{desc}</p> : <p>Sin descripción</p>)}
           {extras.length > 0 && (
             <>
-              <h3>Otros Atributos</h3>
+              <h3>Caracteristicas</h3>
               <ul className="detalles">
                 {extras.map(([k, v]) => (
                   <li key={k}><strong>{pretty(k)}:</strong> {fmt(v)}</li>

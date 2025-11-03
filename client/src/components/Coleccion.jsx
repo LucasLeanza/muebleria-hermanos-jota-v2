@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getAllProducts } from "../services/api";
 
 function resolveImgPath(data) {
-  const s = data?.imagenUrl || data?.img || data?.imagen;
+  const s = data?.imagenUrl || data?.imageURL || data?.img || data?.imagen;
   if (!s) return "/img/placeholder.jpg";
   if (s.startsWith("http")) return s;
   if (s.startsWith("/")) return s;
@@ -16,11 +17,10 @@ function Coleccion() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/productos");
-        if (!res.ok) throw new Error("bad status");
-        const all = await res.json();
+        const all = await getAllProducts();
         setDestacados((all || []).slice(0, 3));
-      } catch {
+      } catch (e) {
+        console.error("No se pudieron cargar destacados", e);
       }
     })();
   }, []);
@@ -33,22 +33,23 @@ function Coleccion() {
       </header>
 
       {destacados.length > 0 && (
-        <div className="coleccion-grid">
+        <div className="coleccion-items">
           {destacados.map((p) => {
             const id = p.id ?? p._id;
             return (
-              <article key={id} className="coleccion-card">
-                <img
-                  src={resolveImgPath(p)}
-                  alt={p.nombre}
-                  onError={(e) => (e.currentTarget.src = "/img/placeholder.jpg")}
-                />
-                <div className="info">
-                  <h3>{p.nombre}</h3>
-                  {p.precio != null && <p>${Number(p.precio).toLocaleString()}</p>}
-                  <div className="acciones">
-                    <button onClick={() => navigate(`/productos/${id}`)}>Ver Detalle</button>
-                  </div>
+              <article key={id}>
+                <div className="img-container">
+                  <img
+                    className="producto-img"
+                    src={resolveImgPath(p)}
+                    alt={p.nombre}
+                    onError={(e) => (e.currentTarget.src = "/img/placeholder.jpg")}
+                  />
+                </div>
+                <h3>{p.nombre}</h3>
+                {p.precio != null && <p className="precio">${Number(p.precio).toLocaleString()}</p>}
+                <div className="acciones">
+                  <button className="btn-primary" onClick={() => navigate(`/productos/${id}`)}>Ver Detalle</button>
                 </div>
               </article>
             );
@@ -56,7 +57,7 @@ function Coleccion() {
         </div>
       )}
 
-      <div style={{ marginTop: "1rem", display: "flex", gap: "0.75rem" }}>
+      <div style={{ marginTop: "1rem" }}>
         <button className="boton-primario" onClick={() => navigate("/catalogo")}>
           Ver Colección Completa
         </button>
