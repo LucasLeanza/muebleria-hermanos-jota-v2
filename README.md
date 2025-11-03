@@ -77,7 +77,7 @@ Crear un archivo `.env` dentro de la carpeta **/backend** con el siguiente conte
 
 ```env
 PORT=4000
-MONGO_URI=tu_cadena_de_conexion_de_MongoDB_Atlas
+MONGO_URI=mongodb+srv://lucasagustinleanza_db_user:123@hermanosjotadb.soeatow.mongodb.net/muebleria_jota
 ```
 
 ### 3️⃣ Instalar dependencias
@@ -189,14 +189,3 @@ GET https://muebleria-hermanos-jota-v2.onrender.com/api/productos
 ```
 
 ---
-
-## ✅ Entregables Sprint 5 y 6
-
-* 📁 Repositorio GitHub con carpetas `/client` y `/backend`
-* 🌐 Backend desplegado en **Render**
-* 💻 Frontend desplegado en **Vercel**
-* 🧾 README actualizado con:
-
-  * Enlaces de deploy
-  * Instrucciones para ejecución local
-  * Detalle de endpoints y estructura
