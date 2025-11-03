@@ -1,105 +1,101 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-export default function CrearProducto() {
-  // Estado del formulario
+function CrearProducto() {
   const [producto, setProducto] = useState({
+    id: "",
     nombre: "",
-    descripcion: "",
     precio: "",
     categoria: "",
+    descripcion: "",
     stock: "",
-    imagen: ""
   });
 
-  // Manejar cambios en los campos
+  const [mensaje, setMensaje] = useState("");
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProducto({
-      ...producto,
-      [name]: value,
-    });
+    setProducto({ ...producto, [name]: value });
   };
 
-  // Manejar envío del formulario
-  const handleSubmit = (e) => {
-    e.preventDefault(); // evita recargar la página
-    console.log("Producto enviado:", producto);
-    // Aquí después conectaremos con la API (POST /productos)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMensaje("");
+
+    try {
+      await axios.post("http://localhost:5000/productos", producto);
+      setMensaje("✅ Producto creado con éxito");
+
+      setProducto({
+        id: "",
+        nombre: "",
+        precio: "",
+        categoria: "",
+        descripcion: "",
+        stock: "",
+      });
+
+      setTimeout(() => {
+        navigate("/"); // redirige a la página principal
+      }, 1500);
+
+    } catch (error) {
+      console.error("Error al crear producto:", error);
+      setMensaje("❌ Hubo un error al crear el producto");
+    }
   };
 
   return (
-    <div style={{ maxWidth: "500px", margin: "auto" }}>
-      <h1>Crear nuevo producto</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Nombre:
-          <input
-            type="text"
-            name="nombre"
-            value={producto.nombre}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <br />
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 bg-gray-100 rounded-xl shadow mt-8">
+      <h2 className="text-xl font-bold mb-4">Crear Producto</h2>
 
-        <label>
-          Descripción:
-          <textarea
-            name="descripcion"
-            value={producto.descripcion}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
+      <div className="mb-3">
+        <label className="block mb-1">ID:</label>
+        <input type="number" name="id" value={producto.id} onChange={handleChange} className="w-full border p-2 rounded" required />
+      </div>
 
-        <label>
-          Precio:
-          <input
-            type="number"
-            name="precio"
-            value={producto.precio}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <br />
+      <div className="mb-3">
+        <label className="block mb-1">Nombre:</label>
+        <input type="text" name="nombre" value={producto.nombre} onChange={handleChange} className="w-full border p-2 rounded" placeholder="Ej: Aparador Uspallata" required />
+      </div>
 
-        <label>
-          Categoría:
-          <input
-            type="text"
-            name="categoria"
-            value={producto.categoria}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
+      <div className="mb-3">
+        <label className="block mb-1">Precio:</label>
+        <input type="number" name="precio" value={producto.precio} onChange={handleChange} className="w-full border p-2 rounded" placeholder="Ej: 1500" required />
+      </div>
 
-        <label>
-          Stock:
-          <input
-            type="number"
-            name="stock"
-            value={producto.stock}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
+      <div className="mb-3">
+        <label className="block mb-2 text-lg font-semibold">Descripción:</label>
+        <textarea name="descripcion" value={producto.descripcion} onChange={handleChange} className="w-full border p-3 rounded text-base h-48 resize-none" placeholder="Ej: Escritorio compacto con cajón organizado..." />
+      </div>
 
-        <label>
-          URL de Imagen:
-          <input
-            type="text"
-            name="imagen"
-            value={producto.imagen}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
+      <div className="mb-3">
+        <label className="block mb-1">Categoría:</label>
+        <select name="categoria" value={producto.categoria} onChange={handleChange} className="w-full border p-2 rounded" required>
+          <option value="">Seleccionar...</option>
+          <option value="almacenamiento">Almacenamiento</option>
+          <option value="asientos">Asientos</option>
+          <option value="mesas">Mesas</option>
+          <option value="dormitorio">Dormitorio</option>
+          <option value="oficina">Oficina</option>
+        </select>
+      </div>
 
-        <button type="submit">Guardar producto</button>
-      </form>
-    </div>
+      <div className="mb-3">
+        <label className="block mb-1">Stock:</label>
+        <input type="number" name="stock" value={producto.stock} onChange={handleChange} className="w-full border p-2 rounded" required />
+      </div>
+
+      <button type="submit" className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition">
+        Crear Producto
+      </button>
+
+      {mensaje && <p className="mt-3 text-center">{mensaje}</p>}
+    </form>
   );
 }
+
+export default CrearProducto;
+

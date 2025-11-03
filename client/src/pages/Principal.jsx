@@ -1,47 +1,21 @@
-const Principal = ({ cambiarPagina }) => {
+import { useNavigate } from "react-router-dom";
+
+function Principal() {
+  const navigate = useNavigate();
+
   return (
-    <section className="presentacion">
-      <div>
-        <div>
-          <h1>Hermanos Jota</h1>
-          <h2>
-            Muebles que cuentan historias: tradición, innovación y
-            sustentabilidad
-          </h2>
-          <p>
-            El redescubrimiento del arte de crear muebles que alimentan el
-            alma. Cada pieza honra la herencia de la artesanía y al mismo
-            tiempo abraza el futuro con conciencia sustentable.
-          </p>
-        </div>
-        <div>
-            Crear producto
-          <button 
-            onClick={() => cambiarPagina('catalogo')}
-            className="boton-primario"
-          >
-            Ver Colección
-          </button>
-          <button 
-            onClick={() => cambiarPagina('contacto')}
-            className="boton-secundario"
-          >
-            Contactar
-          </button>
-          {/* NUEVO BOTÓN PARA PROBAR EL FORMULARIO */}
-          <button 
-            onClick={() => cambiarPagina('crearProducto')}
-            className="boton-terciario"
-          >
-            Probar Formulario
-          </button>
-        </div>
-      </div>
-      <div>
-        <img src="/img/Aparador Uspallata.png" alt="Aparador Uspallata" />
-      </div>
-    </section>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Bienvenido a la tienda</h1>
+      <p>Desde aquí podés crear un nuevo producto.</p>
+
+      <button
+        onClick={() => navigate("/crear-producto")}
+        className="mt-4 bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
+      >
+        Crear un Producto
+      </button>
+    </div>
   );
-};
+}
 
 export default Principal;

@@ -1,4 +1,8 @@
-const Principal = ({ cambiarPagina }) => {
+import { useNavigate } from 'react-router-dom';
+
+const Principal = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="presentacion">
       <div>
@@ -14,23 +18,31 @@ const Principal = ({ cambiarPagina }) => {
             tiempo abraza el futuro con conciencia sustentable.
           </p>
         </div>
+
         <div>
           <button 
-            onClick={() => cambiarPagina('catalogo')}
+            onClick={() => navigate('/catalogo')}
             className="boton-primario"
           >
             Ver Colección
           </button>
           <button 
-            onClick={() => cambiarPagina('contacto')}
+            onClick={() => navigate('/contacto')}
             className="boton-secundario"
           >
             Contactar
           </button>
+          <button
+            onClick={() => navigate('/admin/crearProducto')}
+            className="btn-secondary"
+          >
+            Crear un Producto
+          </button>
         </div>
       </div>
+
       <div>
-        <img src="http://localhost:3000/images/Aparador_Uspallata.png" alt="Aparador Uspallata" />
+        <img src="/img/Aparador Uspallata.png" alt="Aparador Uspallata" />
       </div>
     </section>
   );

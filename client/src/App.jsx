@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './components/CartContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -7,47 +7,24 @@ import Catalogo from './pages/Catalogo';
 import Contacto from './secciones/Contacto';
 import Carrito from './secciones/Carrito';
 import DetalleProducto from './secciones/DetalleProducto';
-import './App.css';
 import CrearProducto from './pages/admin/CrearProducto';
-
+import './App.css';
 
 function App() {
-  const [paginaActual, setPaginaActual] = useState('inicio');
-  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
-
-  const cambiarPagina = (pagina, productoId = null) => {
-    setPaginaActual(pagina);
-    if (productoId) {
-      setProductoSeleccionado(productoId);
-    }
-  };
-
-  let paginaAMostrar;
-
-if (paginaActual === 'inicio') {
-  paginaAMostrar = <Inicio cambiarPagina={cambiarPagina} />;
-} else if (paginaActual === 'catalogo') {
-  paginaAMostrar = <Catalogo cambiarPagina={cambiarPagina} />;
-} else if (paginaActual === 'contacto') {
-  paginaAMostrar = <Contacto />;
-} else if (paginaActual === 'carrito') {
-  paginaAMostrar = <Carrito cambiarPagina={cambiarPagina} />;
-} else if (paginaActual === 'detalle') {
-  paginaAMostrar = <DetalleProducto productoId={productoSeleccionado} cambiarPagina={cambiarPagina} />;
-} else if (paginaActual === 'crearProducto') {
-  paginaAMostrar = <CrearProducto />; // ✅ Página de prueba
-} else {
-  paginaAMostrar = <Inicio cambiarPagina={cambiarPagina} />;
-}
-
-
   return (
     <CartProvider>
-      <div className="App">
-        <Header cambiarPagina={cambiarPagina} paginaActual={paginaActual} />
-        {paginaAMostrar}
-        <Footer cambiarPagina={cambiarPagina} />
-      </div>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Inicio />} />
+          <Route path="/catalogo" element={<Catalogo />} />
+          <Route path="/contacto" element={<Contacto />} />
+          <Route path="/carrito" element={<Carrito />} />
+          <Route path="/detalle/:id" element={<DetalleProducto />} />
+          <Route path="/admin/crearProducto" element={<CrearProducto />} />
+        </Routes>
+        <Footer />
+      </Router>
     </CartProvider>
   );
 }
