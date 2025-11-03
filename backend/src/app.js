@@ -30,7 +30,7 @@ const ACCEPTED_ORIGINS = [
   'http://localhost:3000',
   'http://127.0.0.1:3000',
   'https://jotahermanos.netlify.app',
-  'https://muebleria-hermanos-jota-v2-iota.vercel.app/'
+  'https://muebleria-hermanos-jota-v2-iota.vercel.app'
 ]
 
 
