@@ -48,31 +48,31 @@ function CrearProducto() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 bg-gray-100 rounded-xl shadow mt-8">
-      <h2 className="text-xl font-bold mb-4">Crear Producto</h2>
+    <form onSubmit={handleSubmit} className="card-box">
+      <h2 className="ui-title mb-4">Crear Producto</h2>
 
       <div className="mb-3">
-        <label className="block mb-1">ID:</label>
+        <label className="ui-label">ID:</label>
         <input type="number" name="id" value={producto.id} onChange={handleChange} className="w-full border p-2 rounded" required />
       </div>
 
       <div className="mb-3">
-        <label className="block mb-1">Nombre:</label>
+        <label className="ui-label">Nombre:</label>
         <input type="text" name="nombre" value={producto.nombre} onChange={handleChange} className="w-full border p-2 rounded" placeholder="Ej: Aparador Uspallata" required />
       </div>
 
       <div className="mb-3">
-        <label className="block mb-1">Precio:</label>
+        <label className="ui-label">Precio:</label>
         <input type="number" name="precio" value={producto.precio} onChange={handleChange} className="w-full border p-2 rounded" placeholder="Ej: 1500" required />
       </div>
 
       <div className="mb-3">
-        <label className="block mb-2 text-lg font-semibold">Descripción:</label>
+        <label className="ui-label">Descripción:</label>
         <textarea name="descripcion" value={producto.descripcion} onChange={handleChange} className="w-full border p-3 rounded text-base h-48 resize-none" placeholder="Ej: Escritorio compacto con cajón organizado..." />
       </div>
 
       <div className="mb-3">
-        <label className="block mb-1">Categoría:</label>
+        <label className="ui-label">Categoría:</label>
         <select name="categoria" value={producto.categoria} onChange={handleChange} className="w-full border p-2 rounded" required>
           <option value="">Seleccionar...</option>
           <option value="almacenamiento">Almacenamiento</option>
@@ -84,7 +84,7 @@ function CrearProducto() {
       </div>
 
       <div className="mb-3">
-        <label className="block mb-1">Stock:</label>
+        <label className="ui-label">Stock:</label>
         <input type="number" name="stock" value={producto.stock} onChange={handleChange} className="w-full border p-2 rounded" required />
       </div>
 
@@ -98,4 +98,5 @@ function CrearProducto() {
 }
 
 export default CrearProducto;
+
 
