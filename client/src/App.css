@@ -267,6 +267,10 @@ p {
   gap: 2rem;
 }
 
+.coleccion-items p {
+  color: var(--color-secundario);
+}
+
 .coleccion article {
   background: #fff;
   border-radius: 12px;
@@ -288,7 +292,6 @@ p {
 
 .coleccion article p {
   font-size: 0.95rem;
-  color: #4a4a7a;
   margin: 0 1rem 1rem 1rem;
   line-height: 1.5;
 }
@@ -468,7 +471,7 @@ p {
 .producto-precio {
   font-family: var(--fuente-principal);
   font-size: 1.3rem;
-  color: var(--color-negro);
+  color: var(--color-secundario);
   font-weight: bold;
   margin: 0 0 12px 0;
 }
@@ -557,15 +560,19 @@ p {
 }
 
 .detalle-card h3 {
-  font-size: 1.1rem;
+  font-size: 1.8rem;
   margin: 1.5rem 0 0.8rem;
   color: var(--color-primario);
   font-family: 'Playfair Display', serif;
 }
 
-.detalles {
-  list-style: disc;
-  margin-left: 1.5rem;
+.detalle-card p {
+  color: var(--color-negro);
+}
+
+.detalles{
+  list-style: none;
+  color: var(--color-negro);
 }
 
 .detalles li {
@@ -666,6 +673,7 @@ p {
 
 .precio {
   font-weight: 600;
+  color: var(--color-secundario);
 }
 
 .btn-eliminar {

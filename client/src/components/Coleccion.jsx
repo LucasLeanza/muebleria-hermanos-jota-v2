@@ -38,14 +38,11 @@ function Coleccion() {
             const id = p.id ?? p._id;
             return (
               <article key={id}>
-                <div className="img-container">
-                  <img
-                    className="producto-img"
-                    src={resolveImgPath(p)}
-                    alt={p.nombre}
-                    onError={(e) => (e.currentTarget.src = "/img/placeholder.jpg")}
-                  />
-                </div>
+                <img
+                  src={resolveImgPath(p)}
+                  alt={p.nombre}
+                  onError={(e) => (e.currentTarget.src = "/img/placeholder.jpg")}
+                />
                 <h3>{p.nombre}</h3>
                 {p.precio != null && <p className="precio">${Number(p.precio).toLocaleString()}</p>}
                 <div className="acciones">

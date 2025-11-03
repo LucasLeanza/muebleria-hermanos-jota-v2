@@ -13,22 +13,27 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
+  // Normaliza IDs provenientes del backend o mock: usa `id` o `_id`.
+  const getId = (x) => (x?.id ?? x?._id);
+
   const addToCart = (product) => {
+    const pid = getId(product);
     setCartItems(prev => {
-      const existing = prev.find(item => item.id === product.id);
+      const existing = prev.find(item => (item.id ?? item._id) === pid);
       if (existing) {
         return prev.map(item =>
-          item.id === product.id
+          (item.id ?? item._id) === pid
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      // Asegura que el item en el carrito siempre tenga `id` normalizado
+      return [...prev, { ...product, id: pid, quantity: 1 }];
     });
   };
 
   const removeFromCart = (productId) => {
-    setCartItems(prev => prev.filter(item => item.id !== productId));
+    setCartItems(prev => prev.filter(item => (item.id ?? item._id) !== productId));
   };
 
   const updateQuantity = (productId, newQuantity) => {
@@ -38,7 +43,9 @@ export const CartProvider = ({ children }) => {
     }
     setCartItems(prev =>
       prev.map(item =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item
+        (item.id ?? item._id) === productId
+          ? { ...item, quantity: newQuantity }
+          : item
       )
     );
   };
@@ -48,7 +55,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-  const cartTotal = cartItems.reduce((total, item) => total + (item.precio * item.quantity), 0);
+  const cartTotal = cartItems.reduce((total, item) => total + ((Number(item.precio) || 0) * item.quantity), 0);
 
   return (
     <CartContext.Provider value={{

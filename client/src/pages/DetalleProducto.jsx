@@ -98,15 +98,6 @@ function DetalleProducto() {
     <main>
       <div className="detalle-card">
         <div>
-          <img src={resolveImgPath(producto)} alt={producto?.nombre}
-            onError={e => e.currentTarget.src = '/img/placeholder.jpg'} />
-        </div>
-
-        <div className="info">
-          <h1>{producto.nombre}</h1>
-          {producto.precio != null && (
-            <p className="precio">${Number(producto.precio).toLocaleString()}</p>
-          )}
           <button
             onClick={() => navigate("/catalogo")}
             style={{
@@ -119,8 +110,17 @@ function DetalleProducto() {
           >
             ← Volver al catálogo
           </button>
+          <img src={resolveImgPath(producto)} alt={producto?.nombre}
+            onError={e => e.currentTarget.src = '/img/placeholder.jpg'} />
+        </div>
 
-          <h3>Descripción</h3> 
+        <div>
+          <h1>{producto.nombre}</h1>
+          {producto.precio != null && (
+            <p className="precio">${Number(producto.precio).toLocaleString()}</p>
+          )}
+
+          <h3>Descripción</h3>
           {Array.isArray(desc) ? <ul className="detalles">{desc.map((d, i) => <li key={i}>{d}</li>)}</ul> : (desc ? <p>{desc}</p> : <p>Sin descripción</p>)}
           {extras.length > 0 && (
             <>
