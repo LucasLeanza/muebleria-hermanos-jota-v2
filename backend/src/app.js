@@ -3,6 +3,7 @@ import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import productosRouter from './routes/productos.routes.js'
+import authRouter from './routes/auth.js'
 import notFound from './middlewares/not-found.js'
 import errorHandler from './middlewares/error-handler.js'
 
@@ -47,6 +48,7 @@ app.get('/health', (req, res) => {
 })
 
 app.use('/api/productos', productosRouter)
+app.use('/api/auth', authRouter)
 
 app.use(notFound)
 app.use(errorHandler)
