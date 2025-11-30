@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "./components/CartContext";
-import { AuthProvider } from "./context/AuthContext"; // Agregar esto
+import { AuthProvider } from "./context/AuthContext"; 
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";

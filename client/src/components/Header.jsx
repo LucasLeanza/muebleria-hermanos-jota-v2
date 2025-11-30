@@ -81,7 +81,7 @@ function Header() {
           <li>
             <button 
               onClick={() => irA('/registro')}
-              className={`register-btn ${location.pathname === '/registro' ? 'active' : ''}`}
+              className={`register-btn-nav ${location.pathname === '/registro' ? 'active' : ''}`}
             >
               Registrarse
             </button>
