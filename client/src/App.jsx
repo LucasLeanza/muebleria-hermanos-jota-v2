@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
-import { CartProvider } from "./context/CartContext";
-
+import { CartProvider } from "./context/CartContext"; // De persona3
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -18,7 +17,7 @@ import Login from "./pages/Login";
 import Register from './pages/Register';
 import Perfil from "./pages/Perfil";
 import MisPedidos from "./pages/MisPedidos";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute"; // De persona3
 
 import "./App.css";
 
@@ -39,6 +38,11 @@ function App() {
 
                 <Route path="/crear-producto" element={<CrearProducto />} />
 
+                {/* TUS RUTAS PÚBLICAS */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/registro" element={<Register />} />
+
+                {/* RUTAS PROTEGIDAS de persona3 */}
                 <Route
                   path="/perfil"
                   element={
