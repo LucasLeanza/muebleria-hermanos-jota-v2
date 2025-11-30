@@ -1,6 +1,7 @@
 import { useState } from "react"; 
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../components/CartContext";
+import { useCart } from "../context/CartContext";
+
 
 function resolveImgPath(data) {
   const s = data?.imagenUrl || data?.imagen || data?.img;

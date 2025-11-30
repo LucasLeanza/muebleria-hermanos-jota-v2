@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCart } from './CartContext';
+import { useCart } from "../context/CartContext";
 import { useNavigate, useLocation } from 'react-router-dom';
 
 function Header() {
