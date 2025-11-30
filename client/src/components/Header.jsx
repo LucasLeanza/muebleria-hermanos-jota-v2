@@ -68,6 +68,24 @@ function Header() {
               Contacto
             </button>
           </li>
+          
+          <li>
+            <button 
+              onClick={() => irA('/login')}
+              className={location.pathname === '/login' ? 'active' : ''}
+            >
+              Iniciar Sesión
+            </button>
+          </li>
+
+          <li>
+            <button 
+              onClick={() => irA('/registro')}
+              className={`register-btn ${location.pathname === '/registro' ? 'active' : ''}`}
+            >
+              Registrarse
+            </button>
+          </li>
         </ul>
       </nav>
     </header>

@@ -11,6 +11,9 @@ import Carrito from "./pages/Carrito";
 import DetalleProducto from "./pages/DetalleProducto";
 import CrearProducto from "./pages/CrearProducto";
 
+import Login from "./pages/Login";
+import Register from './pages/Register';
+
 import "./App.css";
 
 function App() {
@@ -26,6 +29,9 @@ function App() {
               <Route path="/contacto" element={<Contacto />} />
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/productos/:id" element={<DetalleProducto />} />
+
+              <Route path="/login" element={<Login />} />
+              <Route path="/registro" element={<Register />} />
             </Routes>
           </main>
           <Footer />

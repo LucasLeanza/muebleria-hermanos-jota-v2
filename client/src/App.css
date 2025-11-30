@@ -1054,3 +1054,25 @@ main {
   margin-bottom: 1rem;
   border: 1px solid rgba(21, 87, 36, .25);
 }
+
+/* Estilo específico para el botón de Registrarse */
+.register-btn {
+  background-color: var(--color-primario) !important; /* #A0522D - marrón */
+  color: var(--color-blanco) !important; /* #FFFFFF - blanco */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.register-btn:hover {
+  background-color: var(--color-detalles-secundario) !important; /* #C47A6D - marrón más claro */
+  color: var(--color-blanco) !important;
+}
+
+/* Para cuando esté activo (en la página de registro) */
+.register-btn.active {
+  background-color: var(--color-detalles-secundario) !important;
+  color: var(--color-blanco) !important;
+}
