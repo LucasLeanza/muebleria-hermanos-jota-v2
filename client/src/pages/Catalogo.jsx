@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useCart } from "../components/CartContext";
+import { useCart } from "../context/CartContext";
 import ProductCard from "../components/ProductCard";
 
 function Catalogo() {

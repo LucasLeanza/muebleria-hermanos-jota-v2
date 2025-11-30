@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useCart } from "../components/CartContext";
+import { useCart } from "../context/CartContext";
 
 const CORE = new Set([
   '_id', 'id', '__v',
