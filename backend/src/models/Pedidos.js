@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const PedidoSchema = new Schema(
+const PedidosSchema = new Schema(
   {
     usuario: {
       type: Schema.Types.ObjectId,
@@ -43,4 +43,4 @@ const PedidoSchema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Pedido", PedidoSchema);
+export default mongoose.model("Pedidos", PedidosSchema);
