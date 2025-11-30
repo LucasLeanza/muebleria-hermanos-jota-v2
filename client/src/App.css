@@ -1347,3 +1347,29 @@ main {
   background-color: var(--color-detalles-secundario) !important;
   color: var(--color-blanco) !important;
 }
+
+/* Estilos para mensajes de error */
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #f5c6cb;
+}
+
+/* Estilo para botón de registrado */
+.logout-btn {
+  background-color: var(--color-detalles-secundario);
+  color: var(--color-blanco);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #a0522d;
+}
