@@ -6,10 +6,14 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
+    const cartCount = cart.reduce((total, item) => total + item.cantidad, 0);
 
     const addToCart = (product, quantity = 1) => {
         setCart((prev) => {
-            const existing = prev.find((item) => item.id === product.id);
+            const productId = product.id ?? product._id;
+            const normalizedProduct = { ...product, id: productId };
+
+            const existing = prev.find((item) => item.id === productId);
             
             if (existing) {
                 return prev.map((item) =>
@@ -18,7 +22,7 @@ export const CartProvider = ({ children }) => {
                         : item
                 );
             }
-            return [...prev, { ...product, cantidad: quantity }];
+            return [...prev, { ...normalizedProduct, cantidad: quantity }];
         });
     };
 
@@ -53,6 +57,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         updateQuantity,
         clearCart,
+        cartCount,
         total,
     };
 

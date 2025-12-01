@@ -52,7 +52,7 @@ const MisPedidos = () => {
 
   return (
     <div className="card-box cart-box" style={{ marginTop: '4rem', marginBottom: '4rem' }}>
-      <h1 className="catalogo-titulo" style={{ marginBottom: '2rem' }}>Mis Pedidos</h1>
+      <h1 className="catalogo-titulo" style={{ marginBottom: '2rem', textAlign: 'center'}}>Mis Pedidos</h1>
       
       {pedidos.length > 0 ? (
         <ul className="carrito-lista">
@@ -67,7 +67,7 @@ const MisPedidos = () => {
                 </span>
                 {}
                 <span className="descripcion" style={{fontSize: '0.8rem'}}>
-                    Items: {pedido.productos?.length || 0}
+                    Items: {pedido.productos?.reduce((total, prod) => total + (prod.cantidad || 0), 0) || 0}
                 </span>
               </div>
               
