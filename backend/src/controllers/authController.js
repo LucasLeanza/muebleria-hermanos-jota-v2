@@ -11,7 +11,7 @@ export const registro = async (req, res) => {
     //Valido que lleguen todos los campos
     if(!nombre || !email || !password) {
       return res.status(400).json({
-        error: 'Todos los campos son obligatorios'
+        message: 'Todos los campos son obligatorios'
       })
     }
 
@@ -19,7 +19,7 @@ export const registro = async (req, res) => {
     const usuarioExistente = await Usuario.findOne({ email })
     if(usuarioExistente) {
       return res.status(400).json({
-        error: 'El email ya está registrado'
+        message: 'El email ya está registrado'
       })
     }
 
@@ -57,7 +57,7 @@ export const registro = async (req, res) => {
   } catch (error) {
     console.error('Error en registro', error)
     res.status(500).json({
-      error: 'Error al registrar el usuario',
+      message: 'Error al registrar el usuario',
       detalle: error.message
     })
   }
@@ -73,7 +73,7 @@ export const login = async (req, res) => {
     //Valido que lleguen los campos
     if(!email || !password) {
       return res.status(400).json({
-        error: 'Email y contraseña son obligatorios'
+        message: 'Email y contraseña son obligatorios'
       })
     }
 
@@ -81,14 +81,14 @@ export const login = async (req, res) => {
     const usuario = await Usuario.findOne({ email })
     if(!usuario) {
       return res.status(401).json({
-        error: 'Credenciales inválidas'
+        message: 'Credenciales inválidas'
       })
     }
 
     const passwordValida = await usuario.compararPassword(password)
     if(!passwordValida) {
       return res.status(401).json({
-        error: 'Credenciales inválidas'
+        message: 'Credenciales inválidas'
       })
     }
 
@@ -117,7 +117,7 @@ export const login = async (req, res) => {
   } catch (error) {
     console.error('Error en el login: ', error)
     res.status(500).json({
-      error: 'Error al iniciar sesión',
+      message: 'Error al iniciar sesión',
       detalle: error.message
     })
   }

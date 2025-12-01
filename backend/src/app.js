@@ -12,17 +12,6 @@ const app = express()
 app.use(express.json())
 app.disable('x-powered-by')
 
-app.use(
-  cors({
-    origin: (origin, cb) => {
-      if (!origin) return cb(null, true)
-        if (ACCEPTED_ORIGINS.includes(origin)) return cb(null, true)
-          return cb(new Error('Not allowed by CORS'))
-      }
-    })
-  )
-
-
 const ACCEPTED_ORIGINS = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
@@ -34,9 +23,17 @@ const ACCEPTED_ORIGINS = [
   'https://muebleria-hermanos-jota-v2-iota.vercel.app'
 ]
 
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true)
 
-  
-
+      if (ACCEPTED_ORIGINS.includes(origin)) return cb(null, true)
+        return cb(new Error('Not allowed by CORS'))
+      },
+      credentials: true
+    })
+  )
 
 app.get('/', (req, res) => {
   res.send('OK: backend corriendo')
