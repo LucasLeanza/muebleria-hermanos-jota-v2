@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CartProvider } from "./components/CartContext";
+
+import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext"; // De persona3
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -11,34 +13,60 @@ import Carrito from "./pages/Carrito";
 import DetalleProducto from "./pages/DetalleProducto";
 import CrearProducto from "./pages/CrearProducto";
 
+import Login from "./pages/Login";
+import Register from './pages/Register';
 import Perfil from "./pages/Perfil";
 import MisPedidos from "./pages/MisPedidos";
+import ProtectedRoute from "./components/ProtectedRoute"; // De persona3
 
 import "./App.css";
 
 function App() {
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <div className="App">
-          <Header />
-          <main style={{ minHeight: "70vh" }}>
-            <Routes>
-              <Route path="/" element={<Inicio />} />
-              <Route path="/catalogo" element={<Catalogo />} />
-              <Route path="/contacto" element={<Contacto />} />
-              <Route path="/carrito" element={<Carrito />} />
-              <Route path="/productos/:id" element={<DetalleProducto />} />
+    <AuthProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <div className="App">
+            <Header />
+            <main style={{ minHeight: "70vh" }}>
+              <Routes>
+                <Route path="/" element={<Inicio />} />
+                <Route path="/catalogo" element={<Catalogo />} />
+                <Route path="/contacto" element={<Contacto />} />
+                <Route path="/carrito" element={<Carrito />} />
+                <Route path="/productos/:id" element={<DetalleProducto />} />
 
-              <Route path="/perfil" element={<Perfil />} />
-              <Route path="/mis-pedidos" element={<MisPedidos />} />
+                <Route path="/crear-producto" element={<CrearProducto />} />
 
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </CartProvider>
+                {/* TUS RUTAS PÚBLICAS */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/registro" element={<Register />} />
+
+                {/* RUTAS PROTEGIDAS de persona3 */}
+                <Route
+                  path="/perfil"
+                  element={
+                    <ProtectedRoute>
+                      <Perfil />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/mis-pedidos"
+                  element={
+                    <ProtectedRoute>
+                      <MisPedidos />
+                    </ProtectedRoute>
+                  }
+                />
+
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

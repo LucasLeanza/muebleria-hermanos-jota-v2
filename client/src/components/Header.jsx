@@ -1,16 +1,27 @@
 import { useState } from 'react';
-import { useCart } from './CartContext';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 function Header() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const { cartCount } = useCart();
+  const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const irA = (ruta) => {
     navigate(ruta);
     setMenuAbierto(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setMenuAbierto(false);
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
   };
 
   return (
@@ -68,6 +79,54 @@ function Header() {
               Contacto
             </button>
           </li>
+          
+          {isAuthenticated ? (
+
+            // Usuario registrado
+            <>
+              <li>
+                <button 
+                  onClick={() => irA('/perfil')}
+                  className={location.pathname === '/perfil' ? 'active' : ''}
+                >
+                  Mi Perfil
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => irA('/mis-pedidos')}
+                  className={location.pathname === '/mis-pedidos' ? 'active' : ''}
+                >
+                  Mis Pedidos
+                </button>
+              </li>
+              <li>
+                <button onClick={handleLogout} className="logout-btn">
+                  Cerrar Sesión
+                </button>
+              </li>
+            </>
+          ) : (
+            // Usuario no registrado
+            <>
+              <li>
+                <button 
+                  onClick={() => irA('/login')}
+                  className={location.pathname === '/login' ? 'active' : ''}
+                >
+                  Iniciar Sesión
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => irA('/registro')}
+                  className={`register-btn-nav ${location.pathname === '/registro' ? 'active' : ''}`}
+                >
+                  Registrarse
+                </button>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </header>

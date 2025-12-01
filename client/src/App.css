@@ -1054,3 +1054,322 @@ main {
   margin-bottom: 1rem;
   border: 1px solid rgba(21, 87, 36, .25);
 }
+
+/*Diseño de la pagina de Iniciar Sesión (Login)*/
+.login-page {
+  background-color: var(--color-background);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: var(--fuente-principal);
+}
+
+.login-box {
+  background: var(--color-blanco);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: var(--color-primario);
+  font-family: var(--fuente-secundaria);
+}
+
+.login-header h2 {
+  font-size: 16px;
+  color: var(--color-primario);
+  margin: 0;
+  font-weight: normal;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--color-primario);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-detalles);
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--fuente-principal);
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--color-primario);
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  color: var(--color-primario);
+}
+
+.remember input {
+  margin-right: 8px;
+}
+
+.forgot {
+  color: var(--color-detalles-secundario);
+  text-decoration: none;
+}
+
+.forgot:hover {
+  text-decoration: underline;
+}
+
+.line {
+  height: 1px;
+  background-color: var(--color-detalles);
+  margin: 25px 0;
+}
+
+.login-btn {
+  width: 100%;
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-family: var(--fuente-principal);
+  font-weight: 500;
+}
+
+.login-btn:hover {
+  background-color: var(--color-detalles-secundario);
+}
+
+.links {
+  text-align: center;
+}
+
+.links p {
+  margin-bottom: 15px;
+  color: var(--color-primario);
+}
+
+.links a {
+  color: var(--color-detalles-secundario);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.back {
+  color: var(--color-primario);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
+/*Diseño de la pagina de Registrarse (Register)*/
+.register-page {
+  background-color: var(--color-background);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: var(--fuente-principal);
+}
+
+.register-box {
+  background: var(--color-blanco);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.register-header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: var(--color-primario);
+  font-family: var(--fuente-secundaria);
+}
+
+.register-header h2 {
+  font-size: 24px;
+  color: var(--color-primario);
+  margin: 0 0 10px 0;
+  font-weight: bold;
+}
+
+.register-header p {
+  font-size: 14px;
+  color: var(--color-primario);
+  margin: 0;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--color-primario);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-detalles);
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--fuente-principal);
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--color-primario);
+}
+
+.line {
+  height: 1px;
+  background-color: var(--color-detalles);
+  margin: 25px 0;
+}
+
+.register-btn {
+  width: 100%;
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-family: var(--fuente-principal);
+  font-weight: 500;
+}
+
+.register-btn:hover {
+  background-color: var(--color-detalles-secundario);
+}
+
+.links {
+  text-align: center;
+}
+
+.links p {
+  margin-bottom: 15px;
+  color: var(--color-primario);
+}
+
+.links a {
+  color: var(--color-detalles-secundario);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.back {
+  color: var(--color-primario);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
+/* Diseño del botón de Registrarse*/
+.register-btn {
+  background-color: var(--color-primario) !important; 
+  color: var(--color-blanco) !important; 
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.register-btn:hover {
+  background-color: var(--color-detalles-secundario) !important;
+  color: var(--color-blanco) !important;
+}
+
+
+.register-btn.active {
+  background-color: var(--color-detalles-secundario) !important;
+  color: var(--color-blanco) !important;
+}
+
+/* Estilos para mensajes de error */
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #f5c6cb;
+}
+
+/* Estilo para botón de registrado */
+.logout-btn {
+  background-color: var(--color-detalles-secundario);
+  color: var(--color-blanco);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #a0522d;
+}
