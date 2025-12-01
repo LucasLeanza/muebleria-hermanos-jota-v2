@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../App.css';
 
-// TODO: Aca se debería importar y utilizar el AuthContext para obtener los datos del usuario real.
-
 const Perfil = () => {
-  // Mock de datos del usuario basado en el modelo Usuario.js
-  const [usuario] = useState({
-    nombre: 'Juan Pérez',
-    email: 'juan.perez@example.com',
-  });
+  const { user, logout } = useAuth();
 
   const handleCerrarSesion = () => {
-    console.log('Sesión cerrada');
-    // Aca iría la lógica para limpiar el token y redirigir al inicio
+    logout(); 
   };
+
+  if (!user) return <div className="card-box" style={{textAlign:'center'}}>Cargando...</div>;
 
   return (
     <div className="card-box" style={{ marginTop: '4rem', marginBottom: '4rem' }}>
       <h1 className="catalogo-titulo" style={{ marginBottom: '2rem' }}>Mi Perfil</h1>
       
       <div className="perfil-info">
-        <p><strong>Nombre:</strong> {usuario.nombre}</p>
-        <p><strong>Email:</strong> {usuario.email}</p>
+        {}
+        {}
+        <p><strong>Nombre:</strong> {user.nombre || user.name}</p>
+        <p><strong>Email:</strong> {user.email}</p>
       </div>
 
       <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
