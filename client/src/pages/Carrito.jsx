@@ -1,7 +1,6 @@
-import { useState } from "react"; 
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-
 
 function resolveImgPath(data) {
   const s = data?.imagenUrl || data?.imagen || data?.img;
@@ -13,12 +12,14 @@ function resolveImgPath(data) {
 
 function Carrito() {
   const navigate = useNavigate();
-  const { cartItems, removeFromCart, updateQuantity, clearCart, cartTotal } = useCart();
   
-  // Estado para bloquear el botón mientras se procesa la compra
+  
+  const { cart, removeFromCart, updateQuantity, clearCart, total } = useCart();
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  if (cartItems.length === 0) {
+  
+  if (!cart || cart.length === 0) {
     return (
       <main>
         <section className="card-box" style={{ textAlign: "center", padding: "3rem" }}>
@@ -32,9 +33,7 @@ function Carrito() {
     );
   }
 
-  // --- LÓGICA DE CHECKOUT (INTEGRACIÓN BACKEND) ---
   const finalizarCompra = async () => {
-    // TODO
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -43,11 +42,10 @@ function Carrito() {
       return;
     }
 
-
     setIsSubmitting(true);
 
     try {
-      // TODO
+      
       const response = await fetch("/api/usuario/pedido", { 
         method: "POST",
         headers: {
@@ -55,18 +53,16 @@ function Carrito() {
           "Authorization": `Bearer ${token}` 
         },
         body: JSON.stringify({
-          items: cartItems,
-          total: cartTotal,
+          items: cart,
+          total: total,
         }),
       });
 
       if (response.ok) {
-        // ÉXITO (200/201)
         alert(`¡Pedido creado con éxito! Gracias por tu compra.`);
-        clearCart();
-        navigate("/mis-pedidos");
+        clearCart(); 
+        navigate("/mis-pedidos"); 
       } else {
-        // ERROR (400, 401, 500)
         if (response.status === 401 || response.status === 403) {
           alert("Tu sesión ha expirado. Por favor inicia sesión nuevamente.");
           navigate("/login");
@@ -79,7 +75,7 @@ function Carrito() {
       console.error("Error de red:", error);
       alert("Hubo un problema de conexión con el servidor.");
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false); 
     }
   };
 
@@ -89,7 +85,8 @@ function Carrito() {
         <h2>Tu Carrito de Compras</h2>
 
         <ul className="carrito-lista">
-          {cartItems.map((item) => {
+          {}
+          {cart.map((item) => {
             const pid = item.id ?? item._id;
 
             return (
@@ -111,13 +108,15 @@ function Carrito() {
 
                 <div className="cantidad-precio">
                   <div className="cantidad">
-                    <button onClick={() => updateQuantity(pid, item.quantity - 1)}>-</button>
-                    <span>{item.quantity}</span>
-                    <button onClick={() => updateQuantity(pid, item.quantity + 1)}>+</button>
+                    {}
+                    <button onClick={() => updateQuantity(pid, item.cantidad - 1)}>-</button>
+                    <span>{item.cantidad}</span>
+                    <button onClick={() => updateQuantity(pid, item.cantidad + 1)}>+</button>
                   </div>
 
                   <div className="precio">
-                    ${(Number(item.precio) * item.quantity).toLocaleString()}
+                    {}
+                    ${(Number(item.precio) * item.cantidad).toLocaleString()}
                   </div>
 
                   <button
@@ -133,14 +132,15 @@ function Carrito() {
         </ul>
 
         <div className="total-carrito">
-          <strong>Total: ${cartTotal.toLocaleString()}</strong>
+          {}
+          <strong>Total: ${total.toLocaleString()}</strong>
         </div>
 
         <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginTop: "2rem" }}>
           <button
             onClick={() => navigate("/catalogo")}
             className="btn-secondary"
-            disabled={isSubmitting}
+            disabled={isSubmitting} 
           >
             Seguir Comprando
           </button>
@@ -148,7 +148,7 @@ function Carrito() {
           <button 
             onClick={finalizarCompra} 
             className="btn-primary"
-            disabled={isSubmitting}
+            disabled={isSubmitting} 
             style={{ opacity: isSubmitting ? 0.7 : 1, cursor: isSubmitting ? 'wait' : 'pointer' }}
           >
             {isSubmitting ? "Procesando..." : "Finalizar Compra"}
