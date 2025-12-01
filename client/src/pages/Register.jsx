@@ -38,17 +38,33 @@ function Register() {
     setLoading(true);
 
     try {
-      // TEMPORAL: Simular registro exitoso y hacer login automáticamente
-      const mockUser = { 
-        id: Date.now(), 
-        nombre: formData.nombre, 
-        email: formData.email 
-      };
-      const mockToken = 'mock-token-' + Date.now();
+      const BACKEND_URL = "https://muebleria-hermanos-jota-v2.onrender.com/"; 
+
+      const response = await fetch(`${BACKEND_URL}/api/auth/registro`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Error al registrarse');
+      }
+
+      console.log("Registro exitoso:", data);
       
-      login(mockToken, mockUser); // CAMBIADO: usar login en lugar de register
+      await login(data.token, data.usuario || data.user); 
+      
       navigate('/'); 
     } catch (error) {
+      console.error(error);
       setError('Error al crear la cuenta: ' + error.message);
     } finally {
       setLoading(false);
@@ -64,7 +80,7 @@ function Register() {
           <p>Unite a la comunidad de Hermanos Jota</p>
         </div>
 
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className="error-message" style={{color: 'red', marginBottom: '1rem'}}>{error}</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">

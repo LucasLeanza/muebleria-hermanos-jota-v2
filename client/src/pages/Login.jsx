@@ -26,10 +26,32 @@ function Login() {
     setLoading(true);
 
     try {
-      // Redirección después de login exitoso
-      await login(formData.email, formData.password);
+      const BACKEND_URL = "https://muebleria-hermanos-jota-v2.onrender.com/"; 
+
+      const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Error al iniciar sesión');
+      }
+      
+      console.log("Login exitoso, datos recibidos:", data);
+
+      await login(data.token, data.usuario || data.user); 
+      
       navigate('/'); 
     } catch (error) {
+      console.error(error);
       setError('Error al iniciar sesión: ' + error.message);
     } finally {
       setLoading(false);
@@ -39,16 +61,14 @@ function Login() {
   return (
     <div className="login-page">
       <div className="login-box">
-        
         <div className="login-header">
           <h1>Bienvenido</h1>
-          <h2>Ingressa a tu cuenta</h2>
+          <h2>Ingresa a tu cuenta</h2>
         </div>
 
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className="error-message" style={{color: 'red', marginBottom: '1rem'}}>{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          
           <div className="input-group">
             <label>Correo Electrónico</label>
             <input
@@ -73,16 +93,6 @@ function Login() {
             />
           </div>
 
-          <div className="options">
-            <div className="remember">
-              <input type="checkbox" />
-              <span>Recordarme</span>
-            </div>
-            <a href="#" className="forgot">¿Olvidaste tu contraseña?</a>
-          </div>
-
-          <div className="line"></div>
-
           <button type="submit" className="login-btn" disabled={loading}>
             {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>
@@ -91,7 +101,6 @@ function Login() {
             <p>No tenés cuenta? <Link to="/registro">Registrate aquí</Link></p>
             <Link to="/" className="back">Volver al inicio</Link>
           </div>
-
         </form>
       </div>
     </div>
