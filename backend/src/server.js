@@ -7,10 +7,6 @@ import usuarioRoutes from './routes/rutas-protegidas.js'  // rutas protegidas so
 
 const PORT = process.env.PORT || 3000
 
-// 🔹 Registrar las rutas (antes del listen)
-app.use("/api/auth", authRoutes)
-app.use("/api/usuario", usuarioRoutes)
-
 connectDB().then(() => {
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`API lista en http://localhost:${PORT}`)

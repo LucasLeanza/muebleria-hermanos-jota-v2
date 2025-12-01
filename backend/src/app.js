@@ -6,6 +6,7 @@ import productosRouter from './routes/productos.routes.js'
 import authRouter from './routes/auth.js'
 import notFound from './middlewares/not-found.js'
 import errorHandler from './middlewares/error-handler.js'
+import usuarioRoutes from './routes/rutas-protegidas.js'
 
 const app = express()
 
@@ -46,6 +47,7 @@ app.get('/health', (req, res) => {
 
 app.use('/api/productos', productosRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/usuario', usuarioRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
