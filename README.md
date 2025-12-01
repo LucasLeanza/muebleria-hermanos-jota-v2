@@ -55,48 +55,73 @@ Plataforma de **e-commerce completa y funcional** con sistema de autenticación 
 ```
 muebleria-hermanos-jota-v2/
 ├── client/                    → Frontend con React + Vite
+│   ├── node_modules/
+│   ├── public/
 │   ├── src/
-│   │   ├── pages/
-│   │   │   ├── Home.jsx
-│   │   │   ├── Productos.jsx
-│   │   │   ├── DetalleProducto.jsx
-│   │   │   ├── Registro.jsx       ← NUEVO
-│   │   │   ├── Login.jsx          ← NUEVO
-│   │   │   ├── Perfil.jsx         ← NUEVO
-│   │   │   ├── MisPedidos.jsx     ← NUEVO
-│   │   │   ├── Carrito.jsx
-│   │   │   └── Contacto.jsx
 │   │   ├── components/
-│   │   │   ├── Navbar.jsx         ← UI condicional
-│   │   │   └── ProtectedRoute.jsx ← NUEVO
+│   │   │   ├── Coleccion.jsx
+│   │   │   ├── Esencia.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Header.jsx
+│   │   │   ├── Principal.jsx
+│   │   │   ├── ProductCard.jsx
+│   │   │   └── ProtectedRoute.jsx
 │   │   ├── context/
-│   │   │   ├── AuthContext.jsx    ← NUEVO
-│   │   │   └── CartContext.jsx    ← NUEVO
-│   │   └── App.jsx
-│   └── package.json
+│   │   │   ├── AuthContext.jsx
+│   │   │   └── CartContext.jsx
+│   │   ├── hooks/
+│   │   │   └── useProducts.js
+│   │   ├── pages/
+│   │   │   ├── Carrito.jsx
+│   │   │   ├── Catalogo.jsx
+│   │   │   ├── Contacto.jsx
+│   │   │   ├── CrearProducto.jsx
+│   │   │   ├── DetalleProducto.jsx
+│   │   │   ├── Inicio.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── MisPedidos.jsx
+│   │   │   ├── Perfil.jsx
+│   │   │   └── Register.jsx
+│   │   ├── services/
+│   │   │   └── api.js
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   └── vite.config.js
 │
 ├── backend/                   → API REST con Express
+│   ├── data/
+│   ├── images/
+│   ├── node_modules/
 │   ├── src/
-│   │   ├── models/
-│   │   │   ├── Product.js
-│   │   │   ├── Usuario.js         ← NUEVO
-│   │   │   └── Pedido.js          ← NUEVO
 │   │   ├── controllers/
-│   │   │   ├── productController.js
-│   │   │   ├── authController.js  ← NUEVO
-│   │   │   └── pedidoController.js ← NUEVO
-│   │   ├── routes/
-│   │   │   ├── productos.routes.js
-│   │   │   ├── auth.js            ← NUEVO
-│   │   │   └── pedidos.js         ← NUEVO
-│   │   ├── middleware/
-│   │   │   ├── verificarToken.js  ← NUEVO
+│   │   │   ├── authController.js
+│   │   │   └── productos.controller.js
+│   │   ├── middlewares/
+│   │   │   ├── error-handler.js
+│   │   │   ├── mongoose-error-handler.js
+│   │   │   ├── mongoose-valid-id-handler.js
 │   │   │   ├── not-found.js
-│   │   │   └── error-handler.js
+│   │   │   └── verificarToken.js
+│   │   ├── models/
+│   │   │   ├── producto.model.js
+│   │   │   ├── Usuario.js
+│   │   │   └── Pedido.js
+│   │   ├── routes/
+│   │   │   ├── auth.js
+│   │   │   └── productos.routes.js
 │   │   ├── app.js
 │   │   └── server.js
 │   ├── db.js
 │   ├── .env (no se sube al repo)
+│   ├── .gitignore
+│   ├── package-lock.json
 │   └── package.json
 │
 └── README.md
