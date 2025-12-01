@@ -85,6 +85,13 @@ export const login = async (req, res) => {
       })
     }
 
+    const passwordValida = await usuario.compararPassword(password)
+    if(!passwordValida) {
+      return res.status(401).json({
+        error: 'Credenciales inválidas'
+      })
+    }
+
     //Genero el JWT
         const token = jwt.sign(
       {
