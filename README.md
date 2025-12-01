@@ -4,37 +4,49 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/LucasLeanza/muebleria-hermanos-jota-v2)
 ![GitHub last commit](https://img.shields.io/github/last-commit/LucasLeanza/muebleria-hermanos-jota-v2)
 
-## Integrantes
+## 👥 Integrantes
 
-* Lucas Leanza
-* Alan Prado
-* Lautaro Appelhans
-* Karen Gerez
-* Matias Banega
+* **Lucas Leanza** - Sistema de Autenticación (Backend)
+* **Matias Banega** - Rutas Protegidas y Pedidos (Backend)
+* **Alan Prado** - Context API y Estado Global (Frontend)
+* **Karen Gerez** - Páginas de Autenticación y UI (Frontend)
+* **Lautaro Appelhans** - Carrito, Pedidos y Despliegue (Frontend)
 
-## Descripción del Proyecto
+---
 
-Proyecto **Full Stack MERN** desarrollado para el **Sprint 5 y 6** del curso de Desarrollo Web Full Stack (ITBA).
+## 📋 Descripción del Proyecto
 
-El objetivo es implementar un **catálogo de productos dinámico** con base de datos en **MongoDB Atlas** y una **API REST Express** desplegada en **Render**, consumida por un **frontend React** desplegado en **Vercel**.
+Proyecto **Full Stack MERN** desarrollado como **Proyecto Final** del curso de Desarrollo Web Full Stack (ITBA).
+
+Plataforma de **e-commerce completa y funcional** con sistema de autenticación seguro, gestión de carrito de compras y proceso completo de pedidos. Los usuarios pueden registrarse, iniciar sesión, navegar productos, gestionar su carrito y realizar pedidos asociados a su cuenta.
+
+**Características principales:**
+- 🔐 Sistema de autenticación con JWT y bcrypt
+- 🛒 Carrito de compras persistente con Context API
+- 📦 Gestión completa de pedidos
+- 🔒 Rutas protegidas (Backend y Frontend)
+- 👤 Perfiles de usuario
+- 🌐 Despliegue completo en producción
 
 ---
 
 ## 🚀 Tecnologías Utilizadas
 
-**Frontend**
-
-* ⚛️ React + Vite
-* 🧭 React Router DOM
+### Frontend
+* ⚛️ **React** + Vite
+* 🧭 **React Router DOM** (con rutas protegidas)
+* 🎯 **Context API** (AuthContext + CartContext)
 * 🎨 CSS Modules
 * 🌐 Fetch API
 
-**Backend**
-
-* 🟢 Node.js + Express
-* 🍃 MongoDB Atlas + Mongoose
-* 🔐 Dotenv
+### Backend
+* 🟢 **Node.js** + Express
+* 🍃 **MongoDB Atlas** + Mongoose
+* 🔐 **bcrypt** (hashing de contraseñas)
+* 🎫 **JSON Web Tokens (JWT)** (autenticación)
+* 🔒 Middleware de autorización
 * 🔄 CORS
+* 🌱 Dotenv
 
 ---
 
@@ -42,20 +54,50 @@ El objetivo es implementar un **catálogo de productos dinámico** con base de d
 
 ```
 muebleria-hermanos-jota-v2/
-├── client/        → Frontend con React + Vite
+├── client/                    → Frontend con React + Vite
 │   ├── src/
-│   │   ├── pages/ → Home, Productos, DetalleProducto, Contacto, CrearProducto
+│   │   ├── pages/
+│   │   │   ├── Home.jsx
+│   │   │   ├── Productos.jsx
+│   │   │   ├── DetalleProducto.jsx
+│   │   │   ├── Registro.jsx       ← NUEVO
+│   │   │   ├── Login.jsx          ← NUEVO
+│   │   │   ├── Perfil.jsx         ← NUEVO
+│   │   │   ├── MisPedidos.jsx     ← NUEVO
+│   │   │   ├── Carrito.jsx
+│   │   │   └── Contacto.jsx
 │   │   ├── components/
+│   │   │   ├── Navbar.jsx         ← UI condicional
+│   │   │   └── ProtectedRoute.jsx ← NUEVO
+│   │   ├── context/
+│   │   │   ├── AuthContext.jsx    ← NUEVO
+│   │   │   └── CartContext.jsx    ← NUEVO
 │   │   └── App.jsx
 │   └── package.json
 │
-├── backend/       → API REST con Express y Mongoose
-│   ├── models/Product.js
-│   ├── routes/productRoutes.js
-│   ├── controllers/productController.js
+├── backend/                   → API REST con Express
+│   ├── src/
+│   │   ├── models/
+│   │   │   ├── Product.js
+│   │   │   ├── Usuario.js         ← NUEVO
+│   │   │   └── Pedido.js          ← NUEVO
+│   │   ├── controllers/
+│   │   │   ├── productController.js
+│   │   │   ├── authController.js  ← NUEVO
+│   │   │   └── pedidoController.js ← NUEVO
+│   │   ├── routes/
+│   │   │   ├── productos.routes.js
+│   │   │   ├── auth.js            ← NUEVO
+│   │   │   └── pedidos.js         ← NUEVO
+│   │   ├── middleware/
+│   │   │   ├── verificarToken.js  ← NUEVO
+│   │   │   ├── not-found.js
+│   │   │   └── error-handler.js
+│   │   ├── app.js
+│   │   └── server.js
 │   ├── db.js
-│   ├── server.js
-│   └── .env (no se sube al repo)
+│   ├── .env (no se sube al repo)
+│   └── package.json
 │
 └── README.md
 ```
@@ -76,9 +118,15 @@ cd muebleria-hermanos-jota-v2
 Crear un archivo `.env` dentro de la carpeta **/backend** con el siguiente contenido:
 
 ```env
-PORT=4000
-MONGO_URI=mongodb+srv://lucasagustinleanza_db_user:123@hermanosjotadb.soeatow.mongodb.net/muebleria_jota
+PORT=3000
+MONGODB_URI=mongodb+srv://lucasagustinleanza_db_user:123@hermanosjotadb.soeatow.mongodb.net/muebleria_jota
+JWT_SECRET=tu_super_secreto_aqui_cambialo_en_produccion
 ```
+
+> ⚠️ **IMPORTANTE:** El `JWT_SECRET` debe ser una cadena aleatoria y segura. Para generar una:
+> ```bash
+> node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+> ```
 
 ### 3️⃣ Instalar dependencias
 
@@ -95,97 +143,297 @@ npm install
 ### 4️⃣ Ejecutar en modo desarrollo
 
 ```bash
-# Backend
+# Backend (desde carpeta backend)
 npm run dev
 
-# Frontend
+# Frontend (desde carpeta client)
 npm run dev
 ```
 
-Por defecto el servidor corre en
-👉 `http://localhost:4000`
-y el cliente en
-👉 `http://localhost:5173`
+**URLs locales:**
+- 🔙 Backend: `http://localhost:3000`
+- 💻 Frontend: `http://localhost:5173`
 
 ---
 
-## 🗄️ Requisitos del Backend (API)
+## 🗄️ API Backend - Documentación de Endpoints
 
-### 🔌 Conexión a Base de Datos
+### 🔓 Autenticación (Públicos)
 
-* Conexión a **MongoDB Atlas** mediante variable de entorno (`MONGO_URI`) guardada en `.env`.
+| Método   | Endpoint              | Descripción                          | Body                                      |
+| :------- | :-------------------- | :----------------------------------- | :---------------------------------------- |
+| **POST** | `/api/auth/registro`  | Registrar nuevo usuario              | `{ nombre, email, password }`             |
+| **POST** | `/api/auth/login`     | Iniciar sesión (devuelve JWT)        | `{ email, password }`                     |
 
-### 📦 Modelo de Datos (Product)
-
-```js
-const productSchema = new mongoose.Schema({
-  nombre: { type: String, required: true },
-  descripcion: String,
-  precio: { type: Number, required: true },
-  stock: Number,
-  imagenUrl: String
-});
+**Respuesta exitosa (registro/login):**
+```json
+{
+  "mensaje": "Usuario registrado exitosamente",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "usuario": {
+    "id": "507f1f77bcf86cd799439011",
+    "nombre": "Juan Pérez",
+    "email": "juan@ejemplo.com"
+  }
+}
 ```
 
-### 🧠 CRUD Completo de Productos
+---
+
+### 📦 Productos (Públicos)
 
 | Método     | Endpoint             | Descripción                     |
 | :--------- | :------------------- | :------------------------------ |
-| **GET**    | `/api/productos`     | Devuelve todos los productos    |
-| **GET**    | `/api/productos/:id` | Devuelve un producto por su ID  |
-| **POST**   | `/api/productos`     | Crea un nuevo producto          |
-| **PUT**    | `/api/productos/:id` | Actualiza un producto existente |
-| **DELETE** | `/api/productos/:id` | Elimina un producto por ID      |
+| **GET**    | `/api/productos`     | Obtener todos los productos     |
+| **GET**    | `/api/productos/:id` | Obtener un producto por ID      |
+| **POST**   | `/api/productos`     | Crear un nuevo producto         |
+| **PUT**    | `/api/productos/:id` | Actualizar un producto          |
+| **DELETE** | `/api/productos/:id` | Eliminar un producto            |
 
 ---
 
-## 💻 Requisitos del Frontend (React)
+### 🔒 Rutas Protegidas (Requieren JWT)
 
-### 🧭 Enrutamiento con React Router
+| Método   | Endpoint              | Descripción                          | Headers                                  |
+| :------- | :-------------------- | :----------------------------------- | :--------------------------------------- |
+| **POST** | `/api/pedidos`        | Crear un pedido (usuario autenticado)| `Authorization: Bearer <token>`          |
+| **GET**  | `/api/pedidos/mis-pedidos` | Ver pedidos del usuario         | `Authorization: Bearer <token>`          |
+| **GET**  | `/api/perfil`         | Ver perfil del usuario               | `Authorization: Bearer <token>`          |
 
-Rutas principales:
+**Ejemplo de petición protegida:**
+```bash
+POST /api/pedidos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+Content-Type: application/json
 
-* `/` → Página principal
-* `/productos` → Catálogo (fetch a la API `/api/productos`)
-* `/productos/:id` → Detalle dinámico (usa `useParams` + fetch)
-* `/contacto` → Formulario de contacto
-* `/admin/crear-producto` → Formulario de creación de productos
-
-### 🔁 Consumo de la API Real
-
-* Manejo de **estado de carga y error**.
-* Peticiones con `fetch` hacia el backend desplegado en Render.
-
-### 🧾 Página de Detalle Dinámica
-
-* Usa `useParams()` para obtener el ID desde la URL.
-* Realiza `GET /api/productos/:id` y muestra los detalles del producto.
-
-### 🧩 Formulario de Creación
-
-* Controlado con React.
-* Envía un `POST` a `/api/productos`.
-* Tras crear un producto, usa `useNavigate()` para redirigir al catálogo o detalle.
-
-### 🗑️ Funcionalidad de Borrado
-
-* En la página de detalle hay un botón **"Eliminar"**.
-* Al hacer clic, pide confirmación (`window.confirm()`) y realiza un `DELETE /api/productos/:id`.
-* Tras borrarlo, redirige al catálogo.
+{
+  "items": [
+    {
+      "producto": "507f1f77bcf86cd799439011",
+      "cantidad": 2,
+      "precio": 15000
+    }
+  ],
+  "total": 30000
+}
+```
 
 ---
 
-## 🌐 Deploys
+## 🗃️ Modelos de Datos
+
+### Usuario
+```javascript
+{
+  nombre: String,
+  email: String (unique),
+  password: String (hasheado con bcrypt),
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Producto
+```javascript
+{
+  nombre: String (required),
+  descripcion: String,
+  precio: Number (required),
+  imageURL: String
+}
+```
+
+### Pedido
+```javascript
+{
+  usuario: ObjectId (ref: 'Usuario'),
+  items: [{
+    producto: ObjectId (ref: 'Product'),
+    nombre: String,
+    cantidad: Number,
+    precio: Number
+  }],
+  total: Number,
+  estado: String (enum: ['pendiente', 'procesando', 'enviado', 'entregado']),
+  fecha: Date
+}
+```
+
+---
+
+## 💻 Frontend - Características Principales
+
+### 🔐 Sistema de Autenticación
+
+**AuthContext** gestiona:
+- Estado del usuario (`user`, `token`, `isAuthenticated`)
+- Funciones: `login()`, `logout()`, `register()`
+- Persistencia del token en `localStorage`
+- Recuperación de sesión al recargar página
+
+**Rutas Públicas:**
+- `/` - Home
+- `/productos` - Catálogo
+- `/productos/:id` - Detalle de producto
+- `/registro` - Formulario de registro
+- `/login` - Formulario de login
+- `/contacto` - Contacto
+
+**Rutas Protegidas (requieren autenticación):**
+- `/perfil` - Perfil del usuario
+- `/mis-pedidos` - Historial de pedidos
+- `/carrito` - Carrito de compras (botón finalizar solo si está autenticado)
+
+### 🛒 Gestión del Carrito
+
+**CartContext** gestiona:
+- Estado del carrito (items, cantidades, total)
+- Funciones: `addToCart()`, `removeFromCart()`, `updateQuantity()`, `clearCart()`
+- Se limpia automáticamente después de crear un pedido
+
+### 🎨 UI Condicional
+
+El **Navbar** muestra opciones diferentes según el estado de autenticación:
+
+**Usuario NO autenticado:**
+- Login
+- Registro
+
+**Usuario autenticado:**
+- Mi Perfil
+- Mis Pedidos
+- Carrito (con badge de cantidad)
+- Logout
+
+---
+
+## 🔒 Seguridad Implementada
+
+✅ **Contraseñas hasheadas** con bcrypt (salt rounds: 10)  
+✅ **JWT con expiración** (7 días)  
+✅ **Middleware de verificación** en rutas protegidas  
+✅ **Validación de datos** en backend y frontend  
+✅ **Variables sensibles** en `.env` (no subidas al repo)  
+✅ **CORS configurado** con origins permitidos  
+✅ **Nunca se devuelve el password** en respuestas de API  
+
+---
+
+## 🌐 Despliegue en Producción
 
 | Servicio              | URL                                                                                                |
 | :-------------------- | :------------------------------------------------------------------------------------------------- |
 | **Frontend (Vercel)** | [https://muebleria-hermanos-jota-v2-iota.vercel.app/](https://muebleria-hermanos-jota-v2-iota.vercel.app/)     |
 | **Backend (Render)**  | [https://muebleria-hermanos-jota-v2.onrender.com](https://muebleria-hermanos-jota-v2.onrender.com) |
+| **Base de Datos**     | MongoDB Atlas (cluster en la nube)                                                                 |
 
-**Ejemplo de endpoint activo:**
+### Configuración de Variables de Entorno en Producción
 
+**Render (Backend):**
 ```
-GET https://muebleria-hermanos-jota-v2.onrender.com/api/productos
+MONGODB_URI=mongodb+srv://...
+JWT_SECRET=<secreto_generado>
+PORT=3000
+```
+
+**Vercel (Frontend):**
+```
+VITE_API_URL=https://muebleria-hermanos-jota-v2.onrender.com
 ```
 
 ---
+
+## 🧪 Pruebas con Thunder Client / Postman
+
+### 1. Registrar un usuario
+```http
+POST http://localhost:3000/api/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Test User",
+  "email": "test@test.com",
+  "password": "123456"
+}
+```
+
+### 2. Iniciar sesión
+```http
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "123456"
+}
+```
+
+### 3. Crear un pedido (con token)
+```http
+POST http://localhost:3000/api/pedidos
+Authorization: Bearer <tu_token_aqui>
+Content-Type: application/json
+
+{
+  "items": [...],
+  "total": 50000
+}
+```
+---
+
+## 🎯 Objetivos Cumplidos
+
+✅ Sistema de autenticación completo (registro + login)  
+✅ Hashing seguro de contraseñas con bcrypt  
+✅ Tokens JWT con expiración configurada  
+✅ Middleware de autorización para rutas protegidas  
+✅ Context API para estado global (Auth + Cart)  
+✅ Rutas protegidas en frontend con `<ProtectedRoute>`  
+✅ UI condicional según estado de autenticación  
+✅ Gestión completa del carrito de compras  
+✅ Sistema de pedidos asociados a usuarios  
+✅ Despliegue completo (Frontend + Backend + DB)  
+✅ Variables de entorno configuradas en producción  
+
+---
+
+## 📝 Notas del Desarrollo
+
+### Sprint Final - División de Tareas
+
+El proyecto se dividió en 5 áreas principales:
+
+1. **Backend - Autenticación:** Sistema completo de JWT y bcrypt
+2. **Backend - Rutas Protegidas:** Pedidos y endpoints seguros
+3. **Frontend - Estado Global:** Context API (Auth + Cart)
+4. **Frontend - UI de Auth:** Páginas de login/registro y navbar
+5. **Frontend - Carrito y Deploy:** Proceso de compra y despliegue
+
+---
+
+## 🐛 Solución de Problemas Comunes
+
+**Error: "No autorizado - Token no proporcionado"**
+- Verificar que el header `Authorization` tenga el formato: `Bearer <token>`
+
+**Error: "Token inválido o expirado"**
+- Hacer login nuevamente para obtener un token válido
+
+**Error de CORS**
+- Verificar que la URL del frontend esté en la lista de `ACCEPTED_ORIGINS` del backend
+
+**Base de datos no conecta**
+- Verificar que `MONGODB_URI` en `.env` sea correcta
+- Verificar IP whitelist en MongoDB Atlas (permitir conexiones desde cualquier IP: `0.0.0.0/0`)
+
+---
+
+## 📄 Licencia
+
+Este proyecto es de carácter educativo, desarrollado para el curso de Desarrollo Web Full Stack del ITBA.
+
+---
+
+## 🙏 Agradecimientos
+
+Agradecemos al equipo docente del ITBA por la guía durante todo el curso y por brindarnos las herramientas para desarrollar este proyecto Full Stack completo.
