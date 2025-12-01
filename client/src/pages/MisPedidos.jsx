@@ -18,7 +18,7 @@ const MisPedidos = () => {
           return;
         }
 
-        const BACKEND_URL = "https://muebleria-hermanos-jota-v2.onrender.com/"; 
+        const BACKEND_URL = "https://muebleria-hermanos-jota-v2.onrender.com"; 
 
         const response = await fetch('${BACKEND_URL}/api/usuario/mis-pedidos', { 
           headers: {
