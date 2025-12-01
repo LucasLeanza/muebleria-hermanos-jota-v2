@@ -48,7 +48,7 @@ function Carrito() {
 
     try {
       // TODO
-      const response = await fetch("/api/pedidos", { 
+      const response = await fetch("/api/usuario/pedido", { 
         method: "POST",
         headers: {
           "Content-Type": "application/json",
