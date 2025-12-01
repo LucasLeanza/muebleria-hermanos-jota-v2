@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 function Header() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const { cartCount } = useCart();
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuth, user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -80,7 +80,7 @@ function Header() {
             </button>
           </li>
           
-          {isAuthenticated ? (
+          {isAuth ? (
 
             // Usuario registrado
             <>
