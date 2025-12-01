@@ -46,7 +46,9 @@ function Carrito() {
 
     try {
       
-      const response = await fetch("/api/usuario/pedido", { 
+      const BACKEND_URL = "https://muebleria-hermanos-jota-v2.onrender.com/"; 
+
+      const response = await fetch(`${BACKEND_URL}/api/usuario/pedido`, { 
         method: "POST",
         headers: {
           "Content-Type": "application/json",
